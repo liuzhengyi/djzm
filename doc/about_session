@@ -1,0 +1,6 @@
+名		值			含义
+mid		abc			管理员id
+mname		'xxx'			管理员昵称
+is_primary	true,false 		是否为主管理员
+artwork_types	array('type_name_en' => 'type_name_zh', ...)	艺术品分类
+verifyCode	abcde			当前用户当前使用的验证码

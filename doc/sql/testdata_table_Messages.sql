@@ -1,0 +1,13 @@
+
+-- testdata in Messages
+insert into Messages values(NULL, 'message name1', 'message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 message1 end of message1', now(), '匿名', '12345678', 9, NULL, 1, NULL);	-- 1
+insert into Messages values(NULL, 'message name2', 'message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 message2 end of message2', now(), '匿名', '6576523', 0, NULL, 1, NULL);	-- 2
+insert into Messages values(NULL, 'message name3', 'message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 message3 end of message3', now(), '匿名', '878687672', 0, NULL, 0, NULL);	-- 3
+insert into Messages values(NULL, 'message name4', 'message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 message4 end of message4', now(), '匿名', '767755768', 11, NULL, 0, NULL);	-- 4
+insert into Messages values(NULL, 'message name5', 'message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 message5 end of message5', now(), '匿名', '8787987', 0, NULL, 0, NULL);	-- 5
+insert into Messages values(NULL, 'message name6', 'message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 message6 end of message6', now(), '匿名', '7879878', 0, NULL, 0, NULL);	-- 6
+insert into Messages values(NULL, 'message name7', 'message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 message7 end of message7', now(), '匿名', '6768678', 0, NULL, 0, NULL);	-- 7
+insert into Messages values(NULL, 'message name8', 'message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 message8 end of message8', now(), '匿名', '234352', 10, NULL, 0, NULL);	-- 8
+insert into Messages values(NULL, '回复1', '回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 end of 回复', now(), '匿名', '234352', 0, 1, 1, NULL);	-- 9
+insert into Messages values(NULL, '回复2', '回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 end of 回复', now(), '匿名', '234352', 0, 8, 1, NULL);	-- 10
+insert into Messages values(NULL, '回复3', '回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 回复 end of 回复', now(), '匿名', '334353', 0, 4, 1, NULL);	-- 11
