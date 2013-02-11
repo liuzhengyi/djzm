@@ -1,0 +1,40 @@
+关于古董类别：
+	由ArtworkTypes表控制，管理员可以通过web界面删减古董类别。
+	ArtworkTypes表的type_name_en项是Artworks表中artwork_type的外键约束
+
+关于上传文件目录
+	写在配置文件config.php中，
+	艺术品图像上传目录 $cfg_upload_img_aw_dir,
+		其中包含三个子目录，分别存放大图，中图和小图，
+		为 $cfg_la_dir, $cfg_mi_dir, $cfg_sm_dir
+	文章图像上传目录 $cfg_upload_img_ar_dir,
+
+关于管理员控制台
+	控制台变量在include/console_var.php 中。
+	控制台的页面代码写在include/sub_main_content.php 中。
+	
+关于显示页面文档结构
+<?php
+session_start();
+require('config.php');
+require(...);
+?>
+<?php require('include/dochead.php'); ?>
+// 含有文档的头信息 如DOCTYPE 等以及<html><head>中的一部分，不包含</head>
+// 不包含</head>标签是为了可以在文档中添加一些<link >或<script>标签
+<?php require('include/header.php'); ?>
+// 包含页面中的页头部分，如logo，导航等。
+...
+
+<?php require('./include/sub_main_content.php'); ?>
+// 包含右侧边栏的内容
+
+<?php require('./include/footer.php'); ?>
+// 包含页脚内容，如版权等。
+
+
+系统移植：
+	当从本地机器移植到远程主机上并使用的url时要修改以下地方：
+	1. /config.php 中的siteRoot, webRoot 和 hostName
+	2. /lib/debug.php 中 lib_delay_jump() 中默认跳向url的值
+	3. /dbConfFile 中的配置信息
