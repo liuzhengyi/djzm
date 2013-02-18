@@ -8,7 +8,7 @@ $captcha->CreateImage();
 class SimpleCaptcha {
     public $width  = 120;
     public $height = 50;
-		public $glbVerifySeed = "234578acdefhijgkmnpqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		public $glbVerifySeed = "234578acdefhijgkmnpqrstuvxyzABCDEFGHIJKLMNPQRSTUVWXYZ";
 		public $strLength = 5;
     public $session_var = 'verifyCode';
     public $backgroundColor = array(255, 255, 255);

@@ -8,14 +8,14 @@ session_start();
  *
  */
 include('config.php');
+require($cfg_webRoot.$cfg_lib.'debug.php');
 if(isset($_SESSION['mname'])) { // 已登录管理员
 // 是管理员，提供管理员控制台
 	require('include/console_var.php');
 } else { // 非管理员	!!
-	lib_delay_jump();
+	lib_delay_jump(3, '对不起，请先登录，再进行管理');
 }
 // 错误处理函数 和 分页函数
-require($cfg_webRoot.$cfg_lib.'debug.php');
 require($cfg_webRoot.$cfg_lib.'page.php');
 
 // 根据请求类型确定SQL语句 和 head 等变量

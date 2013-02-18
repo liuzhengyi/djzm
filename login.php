@@ -33,10 +33,10 @@ if( isset($_GET['error']) ) {
 </div>
 </div> <!-- end of DIV header -->
 <form action="action/login.php" method="post">
-登录名称<input type="text" name="user_name" place_holder="请输入您的用户名" /><br />
-登录密码<input type="password" name="pass_word" place_holder="请输入您的密码" /><br />
-验证字符<input type="text" name="veri_code" place_holder="请输入您的密码" /><br />
 <span text-color="red">验证图片</span><a href="login.php?rand=<?php echo rand(); ?>"><img src="lib/verify_code.php" />点击图片换一张</a><br />
+验证字符<input type="text" name="veri_code" required="required" placeholder="输入上图中字符，不分大小写" /><br />
+登录名称<input type="text" name="user_name" placeholder="请输入您的用户名" /><br />
+登录密码<input type="password" name="pass_word" placeholder="请输入您的密码" /><br />
 <input type="submit" name="submit" value="登录" />
 </form>
 </body>
