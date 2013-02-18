@@ -14,9 +14,14 @@ require($cfg_webRoot.'lib/debug.php');
 if( !isset($_SESSION['mid']) ) {
 	lib_delay_jump(3, '请先登录，再进行管理');
 }
+if( !isset($_GET['id']) || !isset($_GET['type']) ) {
+	$msg = '对不起，必需参数不全'; $url = '../control_artwork.php';
+	$name = '艺术品管理页面';
+	lib_delay_jump( 3, $msg, $url, $name );
+}
 $id = intval($_GET['id']);
 $checked_by = $_SESSION['mid'];
-if( !isset($_GET['type']) || ('sale' != $_GET['type'] && 'hide' != $_GET['type']) ) {
+if( 'sale' != $_GET['type'] && 'hide' != $_GET['type'] ) {
 	$msg = '对不起，请不要手工设定参数';
 	$url = '../control_artwork.php';
 	$name = '艺术品管理页面';
@@ -33,7 +38,7 @@ lib_pdo_if_fail( $sth_id_exist->execute(), $sth_id_exist, __FILE__, __LINE__, CF
 $id_exist = $sth_id_exist->fetch(PDO::FETCH_ASSOC);
 if( !$id_exist['exist'] ) {
 // 不存在该艺术品
-	$msg = '对不起，您所管理的艺术品不存在';
+	$msg = '对不起，不存在此艺术品';
 	$url = '../control_artwork.php';
 	$name = '艺术品管理页面';
 	lib_delay_jump( 3, $msg, $url, $name );
