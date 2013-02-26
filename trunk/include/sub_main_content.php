@@ -45,13 +45,14 @@
 			<p>搜索馆藏 </p>
 		</div> <!-- end of DIV header_of_item_search -->
 		<div id="item_search" class="content_block">
-			<form action="#" method="POST">
-				检索要素： <select >
-				<option value='author'>author</option>
-				<option value='period'>period</option>
-				<option value='type'>type</option>
+			<form action="search.php" method="POST">
+				检索要素： <select name="type">
+				<option value='author'>作者姓名</option>
+				<option value='period'>作者时期</option>
+				<option value='name'>作品名称</option>
+				<option value='type'>作品类型</option>
 				</select>
-				关键字：<input size="10" />
+				关键字：<input name="key" size="10" />
 				<input type="submit" value="搜索" />
 			</form>
 		</div> <!-- end of DIV item_search -->

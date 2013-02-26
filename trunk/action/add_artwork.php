@@ -8,20 +8,20 @@ if(empty($_POST['submit'])) {
 	lib_delay_jump(3, '对不起，您不应直接访问此页面');
 }
 $sess_artwork_types = $_SESSION['artwork_types'];
-$name = trim($_POST['artwork_name']);	// !! 艺术品名称唯一性检查
-$type = trim($_POST['artwork_type']);
-$size = trim($_POST['artwork_size']);
-$image = $_FILES['artwork_image'];
-$author = trim($_POST['artwork_author']);
-$period = trim($_POST['artwork_period']);
-$intro = trim($_POST['artwork_intro']);
-$detail = trim($_POST['artwork_detail']);
-$price = trim($_POST['artwork_price']);
-$amount = trim($_POST['artwork_amount']);
-$added_by = $_SESSION['mid'];
-$on_sale = $_POST['on_sale'] == '1' ? '1' : '0';
-$no_comment = $_POST['allow_comment'] == '0' ? '1' : '0';
-$is_hidden = $_POST['is_hidden'] == '1' ? '1' : '0';
+$name	= trim($_POST['artwork_name']);	// !! 艺术品名称唯一性检查
+$type	= trim($_POST['artwork_type']);
+$size	= trim($_POST['artwork_size']);
+$image	= $_FILES['artwork_image'];
+$author	= trim($_POST['artwork_author']);
+$period	= trim($_POST['artwork_period']);
+$intro	= trim($_POST['artwork_intro']);
+$detail	= trim($_POST['artwork_detail']);
+$price	= trim($_POST['artwork_price']);
+$amount	= trim($_POST['artwork_amount']);
+$added_by	= $_SESSION['mid'];
+$on_sale	= $_POST['on_sale'] == '1' ? '1' : '0';
+$no_comment	= $_POST['allow_comment'] == '0' ? '1' : '0';
+$is_hidden	= $_POST['is_hidden'] == '1' ? '1' : '0';
 
 /*
 if(empty($image['tmp_name'])) {
@@ -98,7 +98,7 @@ require($cfg_dbConfFile);
 	$sth_insert_artwork->bindParam(':is_hidden', $is_hidden, PDO::PARAM_INT);
 	lib_pdo_if_fail(	$sth_insert_artwork->execute(), $sth_insert_artwork,
 				__FILE__, __LINE__, CFG_DEBUG, 'error', FALSE
-			);	// 如果出错原因是图像重名，这个错误应该在插入数据库之前发现并提醒用户 !!
+			);	// todo 如果出错原因是图像重名，这个错误应该在插入数据库之前发现并提醒用户 !!
 	lib_delay_jump(3, '艺术品添加成功');
 	//var_dump($sth_insert_artwork->errorInfo());
 	exit();

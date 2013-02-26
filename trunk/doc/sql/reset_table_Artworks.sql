@@ -15,7 +15,7 @@ CREATE TABLE `Artworks` (
 	price INT UNSIGNED,			-- 艺术品标价，无符号整型，16777215以内，单位为元
 	amount TINYINT UNSIGNED,		-- 艺术品数量，255以内
 	added_by BIGINT UNSIGNED NOT NULL ,	-- 添加此艺术品的管理员ID，有外键约束 Masters(master_id)
-	on_sale BOOLEAN DEFAULT 1,		-- 是否出售，默认出售
+	on_sale BOOLEAN DEFAULT 0,		-- 是否出售，默认不出售
 	no_comment BOOLEAN DEFAULT 0,		-- 是否不允许留言，默认允许
 	is_hidden BOOLEAN DEFAULT 0,		-- 是否隐藏，默认不隐藏
 --	UNIQUE(artwork_no),

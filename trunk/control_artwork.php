@@ -72,7 +72,7 @@ foreach($artworks as $work) {
 			<tr> <td colspan=\"2\" align=\"center\">{$work['artwork_name']}</td> </tr>
 			<tr> <td>$is_hidden</td><td><a href=\"action/change_artwork_status.php?id={$work['artwork_id']}&type=hide\">更改</a></td> </tr>
 			<tr> <td>$on_sale</td><td><a href=\"action/change_artwork_status.php?id={$work['artwork_id']}&type=sale\">更改</a></td> </tr>
-			<tr> <td><a href=\"modify_artwork.php\">修改信息(u)</a></td><td><a href=\"action/rm_artwork.php?id={$work['artwork_id']}\">删除(谨慎操作)</a></td> </tr>
+			<tr> <td><a href=\"modify_artwork.php?id={$work['artwork_id']}\">修改信息(u)</a></td><td><a href=\"action/rm_artwork.php?id={$work['artwork_id']}\">删除(谨慎操作)</a></td> </tr>
 		</table></div></li>\n";
 }
 echo "\t</ul>\n";
@@ -108,8 +108,8 @@ echo "<hr class=\"clear_line\" />\n";
 			<option value="0">不允许</option>
 			</select><br />
 			出售<select name="on_sale" >
-			<option value="1">是</option>
 			<option value="0">否</option>
+			<option value="1">是</option>
 			</select><br />
 			隐藏<select name="is_hidden" >
 			<option value="0">否</option>
