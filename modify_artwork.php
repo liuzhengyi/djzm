@@ -28,7 +28,7 @@ lib_pdo_if_fail($sth_count->execute(), $sth_count, __FILE__, __LINE__, CFG_DEBUG
 $count_res = $sth_count->fetch(PDO::FETCH_ASSOC);
 $count = $count_res['count'];
 $type = 'work';
-$main_content_head = '艺术品详情';
+$main_content_head = '艺术品详情修改';
 if ( !isset($_GET['id']) || ($_GET['id'] < 1) || ($_GET['id'] > $count)) {
 	lib_delay_jump(3, '您所管理的艺术品不存在');
 }
@@ -74,25 +74,35 @@ if ( 'sale' == $type || 'all' == $type ) {
 // 显示特定艺术品详细信息 !!
 	echo "<div class=\"big_img\" ><a href=\"{$artworks[0]['img_large']}\" target=\"_blank\"><img src=\"{$artworks[0]['img_middle']}\" width=\"500px\" /></a></div>";
 	$artwork = $artworks[0];
-	echo '<table>';
-	echo "<tr><td>作品名称：</td><td>{$artwork['artwork_name']}</td></tr>";
-	echo "<tr><td>作品类型：</td><td>{$artwork['artwork_type']}</td></tr>";
-	echo "<tr><td>作品尺寸：</td><td>{$artwork['artwork_size']}</td></tr>";
-	echo "<tr><td>作品作者：</td><td>{$artwork['author']}</td></tr>";
-	echo "<tr><td>作品时期：</td><td>{$artwork['period']}</td></tr>";
-	echo "<tr><td>作品简介：</td><td>{$artwork['intro']}</td></tr>";
-	echo "<tr><td>作品数量：</td><td>{$artwork['amount']}</td></tr>";
-	$on_sale = $artwork['on_sale']?'是':'否';
-	echo "<tr><td>是否出售：</td><td>{$on_sale}</td></tr>";
-	echo '</table>';
-	echo '<hr />';
+	echo '<form action="action/modify_artwork.php" method="post" >';
+	echo '<label for="id"><input id="id" name="id" value="'.$artwork['artwork_id'].'" type="hidden" /></label><br />';
+	echo '<label for="name">作品名称：<input id="name" name="name" value="'.$artwork['artwork_name'].'" /></label><br />';
+	echo '<label for="size">作品尺寸：<input id="size" name="size" value="'.$artwork['artwork_size'].'" /></label><br />';
+	echo '<label for="author">作品作者：<input id="author" name="author" value="'.$artwork['author'].'" /></label><br />';
+	echo '<label for="period">作品时期：<input id="period" name="period" value="'.$artwork['period'].'" /></label><br />';
+	echo '<label for="intro">作品简介：<input id="intro" name="intro" value="'.$artwork['intro'].'" /></label><br />';
+	echo '<label for="detail">详细介绍：<textarea id="detail" name="detail" wrap="virtual" >'.$artwork['detail'].'</textarea></label><br />';
+	echo '<label for="intro">作品价格：<input id="price" name="price" value="'.$artwork['price'].'" /></label><br />';
+	echo '<label for="amount">作品数量：<input id="amount" name="amount" value="'.$artwork['amount'].'" /></label><br />';
+	echo '作品类型：<select id="type" name="type" >';
+	foreach( $_SESSION['artwork_types'] as $key => $value ) {
+		$selected = ($key == $artwork['artwork_type']) ? ('selected="selected"') : ('');
+		echo "<option value=\"$key\" $selected >$value</option>";
+	}
+	echo '</select><br />';
+	echo '允许评论：<select name="nocomment" ><option value="1">不允许</option><option value="0">允许</option></select><br />';
+	echo '是否出售：<select name="sale"><option value="0">不出售</option><option value="1">出售</option></select><br />';
+	echo '是否隐藏：<select name="hide"><option value="0">不隐藏</option><option value="1">隐藏</option></select><br />';
+	// $on_sale = $artwork['on_sale']?'是':'否';
+	/*
+	 * 上一个 and 下一个 链接，在此页面暂时取消
 	$prev_id = ($id > 1 && $id <= $count) ? ($id-1) : $count;
 	$next_id = ($id >= 0 && $id < $count-1) ? ($id+1) : 1;
 	$url = $_SERVER['SCRIPT_NAME'].'?type='.$type.'&id=';
 	echo '<p><a href="'.$url.$prev_id.'">上一个</a><a href="'.$url.$next_id.'">下一个</a></p>';
-	echo '<hr />';
-	echo '<p>详细介绍：</p><br />';
-	echo $artwork['detail'];
+	*/
+	echo '<input type="submit" value="提交更改" />';
+	echo '</form>';
 	echo '<hr />';
 }
 ?>

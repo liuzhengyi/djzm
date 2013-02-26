@@ -11,7 +11,7 @@ V	添加
 	/删除/回复留言(message)的接口
 V	leave message 接口
 	更换首页幻灯片图片的接口
-	搜索艺术品的接口
+V	搜索艺术品的接口
 
 V	将artwork_type放到session中( 参见doc/about_session)
 
@@ -22,18 +22,22 @@ V	文章页面/列表
 	有暂时留空的功能，用两个感叹号在注释中标出 !!
 	添加错误处理
 V	将artwork 改为 artwork
-	测试action/add_article.php 中的图像上传
+V	测试action/add_article.php 中的图像上传
 	文件上传中的错误捕捉
 V	管理留言的页面和用户留言的页面应该分离吗？ 分离
 	上传文章时 如何保存文章的格式。 对$_POST['content']进行处理，添加HTML标签
 	商议艺术品编号规则 参考某网站
 V	action/add_message.php !!
-	features.php 页面的管理员控制台
+V	features.php 页面的管理员控制台
 V	改动lib_pdo_if_fail();
 V	留言数据按时间倒序排列
-	控制台删除数据
+V	控制台删除数据
 V	留言界面验证码验证
 	留言使用粘性表单
 	线上版
 V	艺术品等页面，增加“上一页”“下一页”链接
 V	限制图展示页面图像框的大小
+
+	已隐藏的艺术品在管理状态下查看时无法正常显示
+
+	搜索结果页面
