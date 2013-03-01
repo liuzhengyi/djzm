@@ -48,8 +48,8 @@ $cfg_upload_article_dir = $cfg_upload_dir."articles/";
 // smtp  设置
 
 // 分页配置
-$cfg_aw_per_page = 4;	// 艺术品列表每页显示数量
-$cfg_ar_per_page = 4;	// 文章列表每页显示数量
+$cfg_aw_per_page = 8;	// 艺术品列表每页显示数量
+$cfg_ar_per_page = 6;	// 文章列表每页显示数量
 $cfg_ms_per_page = 6;	// 留言列表每页显示数量
 
 

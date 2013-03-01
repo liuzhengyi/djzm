@@ -47,9 +47,9 @@
 		<div id="item_search" class="content_block">
 			<form action="search.php" method="POST">
 				检索要素： <select name="type">
+				<option value='name'>作品名称</option>
 				<option value='author'>作者姓名</option>
 				<option value='period'>作者时期</option>
-				<option value='name'>作品名称</option>
 				<option value='type'>作品类型</option>
 				</select>
 				关键字：<input name="key" size="10" />
