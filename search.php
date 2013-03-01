@@ -3,6 +3,12 @@ session_start();
 include('./config.php');
 include($cfg_webRoot.$cfg_lib.'debug.php');
 require($cfg_webRoot.$cfg_lib.'page.php');
+if(empty($_SESSION['mname'])) {
+// 不是管理员，或未登录
+} else {
+// 是管理员，提供管理员控制台
+	require('include/console_var.php');
+}
 /*
  * 本程序负责检索艺术品(或其他类型数据，后期增强的话)
  * 通过POST方式接收两个参数：
@@ -30,7 +36,7 @@ $key .= '%';
 require($cfg_dbConfFile);
 $dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);
 
-$sql_count = 'select count(1) as count from Artworks where '.$types[$type].' like :key';
+$sql_count = 'select count(1) as count from Artworks where is_hidden = 0 and '.$types[$type].' like :key';
 $sth_count = $dbh->prepare($sql_count);
 $sth_count->bindParam(':key', $key, PDO::PARAM_STR, 90);
 lib_pdo_if_fail($sth_count->execute(), $sth_count, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
@@ -43,7 +49,7 @@ if( isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] >= 1 && $
 } else { $page = 1; }
 $start = ($page - 1)*$per_page;
 
-$sql_search_artwork = 'select * from Artworks where '.$types[$type].' like :key';
+$sql_search_artwork = 'select * from Artworks where is_hidden = 0 and '.$types[$type].' like :key';
 $sth_search_artwork = $dbh->prepare($sql_search_artwork);
 $sth_search_artwork->bindParam(':key', $key, PDO::PARAM_STR, 90);
 lib_pdo_if_fail( $sth_search_artwork->execute(), $sth_search_artwork, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
