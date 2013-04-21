@@ -19,15 +19,23 @@ if(CFG_DEBUG) {
 	ini_set("display_errors", 0);
 }
 
+// 在R52上的配置
 // 本地主机名称
 $cfg_hostName = 'r52/';
 // 服务器上的网站根目录，包含文件路径中用这个
 $cfg_webRoot = "/var/www/djzm/";
 // 网站的http根目录，url中用这个
 $cfg_siteRoot = "http://r52/djzm/";
+
+/*
+// 在美橙上的配置
+*/
+
+/*
 // 在ucart服务器上的配置
-//$cfg_webRoot = "/home/vol15/ucart.tw/ucart_11955460/djzm.ucart.tw/htdocs/";
-//$cfg_siteRoot = "http://djzm.ucart.tw/";
+$cfg_webRoot = "/home/vol15/ucart.tw/ucart_11955460/djzm.ucart.tw/htdocs/";
+$cfg_siteRoot = "http://djzm.ucart.tw/";
+*/
 
 // 数据库配置文件位置
 $cfg_dbConfFile = $cfg_webRoot."dbConf.php";
