@@ -32,6 +32,12 @@ $cfg_siteRoot = "http://r52/djzm/";
 */
 
 /*
+// 在gipsa.name上的配置
+$cfg_webRoot = "/var/www/djzm/";
+$cfg_siteRoot = "http://djzm.gipsa.name/";
+*/
+
+/*
 // 在ucart服务器上的配置
 $cfg_webRoot = "/home/vol15/ucart.tw/ucart_11955460/djzm.ucart.tw/htdocs/";
 $cfg_siteRoot = "http://djzm.ucart.tw/";

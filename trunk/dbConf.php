@@ -19,12 +19,19 @@
 	$dbcfg_dbuser = 'ucart_11955460';
 	$dbcfg_dbpwd = 'ucart2gipsa';
 */
-//	meicheng上的配置
 /*
+//	meicheng上的配置
 	$dbcfg_dbhost = '114.80.208.9';
 	$dbcfg_dbname = 'sq_imageink';
 	$dbcfg_dbuser = 'sq_imageink';
 	$dbcfg_dbpwd = 'PTJ518528';
+*/
+/*
+//	gipsa.name上的配置
+	$dbcfg_dbhost = 'localhost';
+	$dbcfg_dbname = 'guyin';
+	$dbcfg_dbuser = 'guyin_user';
+	$dbcfg_dbpwd = 'asguyin_user';
 */
 
 	$dbcfg_dsn="mysql:dbname=$dbcfg_dbname;host=$dbcfg_dbhost";
