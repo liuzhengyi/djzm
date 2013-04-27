@@ -34,7 +34,7 @@
 	$dbcfg_dbpwd = 'asguyin_user';
 */
 
-	$dbcfg_dsn="mysql:dbname=$dbcfg_dbname;host=$dbcfg_dbhost";
+	$dbcfg_dsn="mysql:dbname=$dbcfg_dbname;host=$dbcfg_dbhost;charset=utf8";
 
 	global $dbcfg_dbServs;
 	$dbcfg_dbServs = array($dbcfg_dbhost, $dbcfg_dbname, $dbcfg_dbuser, $dbcfg_dbpwd);

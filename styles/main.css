@@ -139,7 +139,7 @@ div.class {
 ul#production_list { list-style: none; }
 ul#production_list li { display: inline; padding: 0; }
 div.production_nail {
-	height: 240px;
+	height: 350px;
 	width: 120px;
 	border: 1px solid black;
 	margin: 10px;
