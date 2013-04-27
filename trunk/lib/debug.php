@@ -70,9 +70,11 @@ function lib_debug($debug_msg, $file=NULL, $line=NULL, $to_user=TRUE, $level="er
  *
  */
 function lib_delay_jump($seconds=0, $msg, $to_url='http://r52/djzm/', $to_name='系统主页', $color='blue')
+//function lib_delay_jump($seconds=0, $msg, $to_url='http://djzm.gipsa.name/', $to_name='系统主页', $color='blue')
 //function lib_delay_jump($seconds=0, $msg, $to_url='http://r52/guyin/', $to_name='系统主页', $color='blue')
 //function lib_delay_jump($seconds=0, $msg, $to_url='http://djzm.ucart.tw/', $to_name='系统主页', $color='blue')
 {
+//exit();
     $seconds = intval($seconds);
     header("refresh:$seconds;url=$to_url");
 //    header("Content-Type:text/html;charset=utf8");

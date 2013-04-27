@@ -77,9 +77,15 @@ if ( 'artist' == $type || 'artview' == $type ) {
 	$article = $articles[0];
 	echo "<h3>{$article['article_name']}</h3>";
 	echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
-	echo '<quote>';
-	echo $article['content'];
-	echo "</quote>";
+	//echo '<quote>';
+	//echo '<address>';
+	echo '<p>';
+	$article_content_show = str_replace("\n", '<br />', $article['content']);
+	echo $article_content_show;
+	echo '</p>';
+	//echo $article['content'];
+	//echo '</address>';
+	//echo "</quote>";
 }
 ?>
 

@@ -40,7 +40,7 @@ if(empty($_GET['error'])) {
 		<form enctype="multipart/form-data" action="action/add_article.php" method="post" >
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $cfg_max_upload_file_size; ?>" />
 			<label for="input_name">文章名称<input type="text" name="article_name" id="input_name" /></label><span class="input_hint">(*必填)</span><br />
-			<label for="input_content">内容<input type="text" name="article_content" id="input_content" /></label><span class="input_hint">(*必填)</span><br />
+			<label for="input_content">内容<span class="input_hint">(*必填)</span><br /><textarea name="article_content" id="input_content" cols="40" rows="40" ></textarea></label></span><br />
 			<label for="input_source">来源<input type="text" name="article_source" id="input_source" /></label><br />
 			<label for="input_author">作者<input type="text" name="article_author" id="input_author" /></label><br />
 			<label for="choose_img">配图<input type="file" name="article_image" id="choose_img" /></label><br />
