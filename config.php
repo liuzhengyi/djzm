@@ -19,6 +19,7 @@ if(CFG_DEBUG) {
 	ini_set("display_errors", 0);
 }
 
+/*
 // 在R52上的配置
 // 本地主机名称
 $cfg_hostName = 'r52/';
@@ -26,16 +27,15 @@ $cfg_hostName = 'r52/';
 $cfg_webRoot = "/var/www/djzm/";
 // 网站的http根目录，url中用这个
 $cfg_siteRoot = "http://r52/djzm/";
+*/
 
 /*
 // 在美橙上的配置
 */
 
-/*
 // 在gipsa.name上的配置
 $cfg_webRoot = "/var/www/djzm/";
 $cfg_siteRoot = "http://djzm.gipsa.name/";
-*/
 
 /*
 // 在ucart服务器上的配置

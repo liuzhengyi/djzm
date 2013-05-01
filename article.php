@@ -46,7 +46,7 @@ if( 'article' == $type ) {
 }
 lib_pdo_if_fail( $sth_select_article->execute(), $sth_select_article, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
 if (0 == $sth_select_article->rowCount()) {
-	$articles = '没有内容';	// no data !! the page you visit is not exist !!
+	$articles = '';	// no data !! the page you visit is not exist !!
 } else {
 	$articles = $sth_select_article->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -74,18 +74,25 @@ if ( 'artist' == $type || 'artview' == $type ) {
 	echo '<p>共xx页 当前第1页。</p> <p>转至第 <u>1</u><u>2</u> <u>x</u> <u>x</u> 页。</p>';
 } else {
 // 显示特定某篇文章 !!
-	$article = $articles[0];
-	echo "<h3>{$article['article_name']}</h3>";
-	echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
-	//echo '<quote>';
-	//echo '<address>';
-	echo '<p>';
-	$article_content_show = str_replace("\n", '<br />', $article['content']);
-	echo $article_content_show;
-	echo '</p>';
-	//echo $article['content'];
-	//echo '</address>';
-	//echo "</quote>";
+	if(empty($articles)) {
+		echo '<p>对不起，您所访问的文章不存在。</p>';
+		echo '<p><a href="./article.php">点此返回文章列表</a></p>';
+	} else {
+		$article = $articles[0];
+		echo "<h3>{$article['article_name']}</h3>";
+		if(isset($_SESSION['mname'])) {
+			echo '<div class="article_control">';
+			echo '<ul class="aclinic">';
+			echo '<li><a href="./control_article.php?aid='.$article['article_id'].'">修改文章</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			echo '<li><a href="action/delete_article.php?aid='.$article['article_id'].'">删除文章(谨慎操作)</a></li>';
+			echo '</ul></div>';
+		}
+		echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
+		echo '<p>';
+		$article_content_show = str_replace("\n", '<br />', $article['content']);
+		echo $article_content_show;
+		echo '</p>';
+	}
 }
 ?>
 

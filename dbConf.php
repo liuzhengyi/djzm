@@ -6,11 +6,13 @@
  * 文件config.php中用$dbConfFile指明。
  */
 
+/*
 //	r52上的配置
 	$dbcfg_dbhost = 'localhost';
 	$dbcfg_dbname = 'guyin';
 	$dbcfg_dbuser = 'guyin_user';
 	$dbcfg_dbpwd = 'asguyin_user';
+*/
 
 /*
 //	ucart上的配置
@@ -26,13 +28,11 @@
 	$dbcfg_dbuser = 'sq_imageink';
 	$dbcfg_dbpwd = 'PTJ518528';
 */
-/*
 //	gipsa.name上的配置
 	$dbcfg_dbhost = 'localhost';
 	$dbcfg_dbname = 'guyin';
 	$dbcfg_dbuser = 'guyin_user';
 	$dbcfg_dbpwd = 'asguyin_user';
-*/
 
 	$dbcfg_dsn="mysql:dbname=$dbcfg_dbname;host=$dbcfg_dbhost;charset=utf8";
 

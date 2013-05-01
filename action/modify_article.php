@@ -3,8 +3,8 @@ session_start();
 require('../config.php');
 require($cfg_webRoot.'lib/debug.php');
 
-if(empty($_POST['submit']) || empty($_SESSION['mname'])) {
-// 需要管理员权限访问此页面，否则跳转至首页
+if(empty($_GET['aid']) || empty($_SESSION['mname'])) {
+// 管理员 && 携带正确参数 才能访问该页面
 	lib_delay_jump(3, '对不起，您不应直接访问此页面');
 }
 // 此处需要基本的数据检验 !! 注意空字符串和NULL的区别

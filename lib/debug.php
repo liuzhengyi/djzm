@@ -69,7 +69,7 @@ function lib_debug($debug_msg, $file=NULL, $line=NULL, $to_user=TRUE, $level="er
  * 注意：不应用于debug函数，因为debug函数不会仅用于action中。
  *
  */
-function lib_delay_jump($seconds=0, $msg, $to_url='http://r52/djzm/', $to_name='系统主页', $color='blue')
+function lib_delay_jump($seconds=0, $msg, $to_url='http://djzm.gipsa.name/', $to_name='系统主页', $color='blue')
 //function lib_delay_jump($seconds=0, $msg, $to_url='http://djzm.gipsa.name/', $to_name='系统主页', $color='blue')
 //function lib_delay_jump($seconds=0, $msg, $to_url='http://r52/guyin/', $to_name='系统主页', $color='blue')
 //function lib_delay_jump($seconds=0, $msg, $to_url='http://djzm.ucart.tw/', $to_name='系统主页', $color='blue')

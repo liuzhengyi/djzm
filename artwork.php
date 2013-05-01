@@ -64,9 +64,11 @@ switch ($_GET['type']) {
 		} else {
 			$id = 1;
 		}
+		/*JJ
 		if ( !($id >0 && $id <= $count) ) {
 			$id = 1;
 		}
+		*/
 		$sql_select_artwork = "	select * from Artworks where artwork_id = :id AND is_hidden = FALSE";
 		$sth_select_artwork = $dbh->prepare($sql_select_artwork);
 		$sth_select_artwork->bindParam(':id', $id, PDO::PARAM_INT);
@@ -102,6 +104,9 @@ switch ($_GET['type']) {
 // read the database
 lib_pdo_if_fail($sth_select_artwork->execute(), $sth_select_artwork, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
 $artworks = $sth_select_artwork->fetchAll(PDO::FETCH_ASSOC);
+if(0 == count($artworks)) {
+	// no results
+}
 ?>
 
 <?php require('include/dochead.php'); ?>
@@ -135,6 +140,9 @@ if ( 'sale' == $type || 'all' == $type ) {
 	echo '</ul>';
 } else {
 // 显示特定艺术品详细信息 !!
+	if(0 == count($artworks)) {
+		echo '<h4>对不起，您所访问的艺术品不存在。</h4>';
+	} else {
 	echo "<div class=\"big_img\" ><a href=\"{$artworks[0]['img_large']}\" target=\"_blank\"><img src=\"{$artworks[0]['img_middle']}\" width=\"500px\" /></a></div>";
 	$artwork = $artworks[0];
 	echo '<table>';
@@ -157,6 +165,7 @@ if ( 'sale' == $type || 'all' == $type ) {
 	echo '<p>详细介绍：</p><br />';
 	echo $artwork['detail'];
 	echo '<hr />';
+	}
 }
 ?>
 	</div> <!-- end of DIV main_content -->
