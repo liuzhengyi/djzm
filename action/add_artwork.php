@@ -8,14 +8,14 @@ if(empty($_POST['submit'])) {
 	lib_delay_jump(3, '对不起，您不应直接访问此页面');
 }
 $sess_artwork_types = $_SESSION['artwork_types'];
-$name	= trim($_POST['artwork_name']);	// !! 艺术品名称唯一性检查
+$name	= rtrim($_POST['artwork_name']);	// !! 艺术品名称唯一性检查
 $type	= trim($_POST['artwork_type']);
 $size	= trim($_POST['artwork_size']);
 $image	= $_FILES['artwork_image'];
 $author	= trim($_POST['artwork_author']);
 $period	= trim($_POST['artwork_period']);
-$intro	= trim($_POST['artwork_intro']);
-$detail	= trim($_POST['artwork_detail']);
+$intro	= rtrim($_POST['artwork_intro']);
+$detail	= rtrim($_POST['artwork_detail']);
 $price	= trim($_POST['artwork_price']);
 $amount	= trim($_POST['artwork_amount']);
 $added_by	= $_SESSION['mid'];

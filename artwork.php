@@ -51,7 +51,9 @@ switch ($_GET['type']) {
 		$sth_select_artwork->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 		break;
 	case 'work':	// artwork
-		// 获取所有艺术品总数 供“上一个” “下一个”使用
+		// 获取古董类别信息
+		$artwork_types = $_SESSION['artwork_types'];
+		// 获取所有艺术品总数 
 		$sql_count = '	select count(1) as count from Artworks where is_hidden = FALSE';
 		$sth_count = $dbh->prepare($sql_count);
 		lib_pdo_if_fail($sth_count->execute(), $sth_count, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
@@ -59,16 +61,29 @@ switch ($_GET['type']) {
 		$count = $count_res['count'];
 		$type = 'work';
 		$main_content_head = '艺术品详情';
-		if ( isset($_GET['id']) ) {
-			$id = intval($_GET['id']);
-		} else {
-			$id = 1;
-		}
-		/*JJ
-		if ( !($id >0 && $id <= $count) ) {
-			$id = 1;
-		}
-		*/
+		if ( isset($_GET['id']) ) { $id = intval($_GET['id']);
+		} else { $id = 1; }
+		// 获取 $prev_id, $net_id 供“上一个” “下一个”使用
+		// 上一个
+		$sql_prev_id = 'select artwork_id as id, artwork_name as name from Artworks where artwork_id < :id and is_hidden=false order by artwork_id desc limit 1';
+		$sth_prev_id = $dbh->prepare($sql_prev_id);
+		$sth_prev_id->bindParam(':id', $id, PDO::PARAM_INT);
+		lib_pdo_if_fail($sth_prev_id->execute(), $sth_prev_id, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
+		$prev_id_res= $sth_prev_id->fetch(PDO::FETCH_ASSOC);
+		$url = $_SERVER['SCRIPT_NAME'].'?type='.$type.'&id=';
+		if(empty($prev_id_res['id'])) {$prev_link = '上一个<a>没有了</a>';
+		} else {$prev_link = '上一个<a href="'.$url.$prev_id_res['id'].'">'.$prev_id_res['name'].'</a>';}
+		// 下一个
+		$sql_next_id = 'select artwork_id as id, artwork_name as name from Artworks where artwork_id > :id and is_hidden=false order by artwork_id asc limit 1';
+		$sth_next_id = $dbh->prepare($sql_next_id);
+		$sth_next_id->bindParam(':id', $id, PDO::PARAM_INT);
+		lib_pdo_if_fail($sth_next_id->execute(), $sth_next_id, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
+		$next_id_res= $sth_next_id->fetch(PDO::FETCH_ASSOC);
+		$url = $_SERVER['SCRIPT_NAME'].'?type='.$type.'&id=';
+		if(empty($next_id_res['id'])) {$next_link = '下一个<a>没有了</a>';
+		} else {$next_link = '下一个<a href="'.$url.$next_id_res['id'].'">'.$next_id_res['name'].'</a>';}
+
+		// 获取艺术品详细数据
 		$sql_select_artwork = "	select * from Artworks where artwork_id = :id AND is_hidden = FALSE";
 		$sth_select_artwork = $dbh->prepare($sql_select_artwork);
 		$sth_select_artwork->bindParam(':id', $id, PDO::PARAM_INT);
@@ -147,23 +162,25 @@ if ( 'sale' == $type || 'all' == $type ) {
 	$artwork = $artworks[0];
 	echo '<table>';
 	echo "<tr><td>作品名称：</td><td>{$artwork['artwork_name']}</td></tr>";
-	echo "<tr><td>作品类型：</td><td>{$artwork['artwork_type']}</td></tr>";
+	//echo "<tr><td>作品类型：</td><td>{$artwork['artwork_type']}</td></tr>";
+	echo "<tr><td>作品类型：</td><td>{$artwork_types[$artwork['artwork_type']]}</td></tr>";
 	echo "<tr><td>作品尺寸：</td><td>{$artwork['artwork_size']}</td></tr>";
 	echo "<tr><td>作品作者：</td><td>{$artwork['author']}</td></tr>";
 	echo "<tr><td>作品时期：</td><td>{$artwork['period']}</td></tr>";
 	echo "<tr><td>作品简介：</td><td>{$artwork['intro']}</td></tr>";
+	echo "<tr><td>作品价格：</td><td>{$artwork['price']}</td></tr>";
 	echo "<tr><td>作品数量：</td><td>{$artwork['amount']}</td></tr>";
 	$on_sale = $artwork['on_sale']?'是':'否';
 	echo "<tr><td>是否出售：</td><td>{$on_sale}</td></tr>";
 	echo '</table>';
 	echo '<hr />';
-	$prev_id = ($id > 1 && $id <= $count) ? ($id-1) : $count;
-	$next_id = ($id >= 0 && $id < $count-1) ? ($id+1) : 1;
-	$url = $_SERVER['SCRIPT_NAME'].'?type='.$type.'&id=';
-	echo '<p><a href="'.$url.$prev_id.'">上一个</a><a href="'.$url.$next_id.'">下一个</a></p>';
-	echo '<hr />';
 	echo '<p>详细介绍：</p><br />';
-	echo $artwork['detail'];
+	$artwork_detail_show = str_replace(" ", '&nbsp;', $artwork['detail']);
+	$artwork_detail_show = str_replace("\n", '<br />', $artwork_detail_show);
+	//echo $artwork['detail'];
+	echo $artwork_detail_show;
+	echo '<hr />';
+	echo "<p> $prev_link $next_link </p>";
 	echo '<hr />';
 	}
 }

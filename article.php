@@ -17,8 +17,9 @@ if(isset($_SESSION['mname'])) { // 已登录管理员
 // 根据请求类型确定SQL语句 和 head 等变量
 require($cfg_dbConfFile);
 $dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);
-if ( !isset($_GET['type']) ) { $type = 'artist'; }
-switch ($_GET['type']) {
+if ( !isset($_GET['type']) ) { $type = 'artist'; } else {$type = $_GET['type'];}
+//switch ($_GET['type']) {
+switch ($type) {
 	case 'artview':
 		$type = 'artview';
 		$main_content_head = '艺术视角';
@@ -89,7 +90,8 @@ if ( 'artist' == $type || 'artview' == $type ) {
 		}
 		echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
 		echo '<p>';
-		$article_content_show = str_replace("\n", '<br />', $article['content']);
+		$article_content_show = str_replace(" ", '&nbsp;', $article['content']);
+		$article_content_show = str_replace("\n", '<br />', $article_content_show);
 		echo $article_content_show;
 		echo '</p>';
 	}

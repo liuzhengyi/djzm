@@ -52,7 +52,7 @@ $article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
 		<hr />
 		<p class="error"><?php echo $error_msg; ?></p>
 		<div id="add_article">
-		<form enctype="multipart/form-data" action="action/add_article.php" method="post" >
+		<form enctype="multipart/form-data" action="action/add_article.php<?php if(isset($aid)){echo "?aid=$aid";}?>" method="post" >
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $cfg_max_upload_file_size; ?>" />
 			<label for="input_name">文章名称<input type="text" name="article_name" id="input_name" value="<?php echo $article['article_name']; ?>" /></label><span class="input_hint">(*必填)</span><br />
 			<label for="input_content">内容<span class="input_hint">(*必填)</span><br /><textarea name="article_content" id="input_content" cols="40" rows="40" ><?php if(!empty($article['content'])){echo $article['content'];} ?></textarea></label></span><br />
@@ -71,7 +71,7 @@ $article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
 			<option value="0" <?php if(!$article['is_hidden']) echo 'selected="selected"'; ?> >不隐藏</option>
 			<option value="1">隐藏</option>
 			</select><br />
-			<input type="submit" name="submit" value="<?php if($aid){echo '修改';} else {echo '添加';} ?>此文章" />
+			<input type="submit" name="<?php if($aid){echo 'modify';}else {echo 'submit';}?>" value="<?php if($aid){echo '修改';} else {echo '添加';} ?>此文章" />
 		</form>
 			<?php if (isset($aid)) {
 				echo '<input type="submit" name="cancel" value="放弃修改" />';	
