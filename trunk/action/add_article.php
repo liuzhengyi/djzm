@@ -3,10 +3,14 @@ session_start();
 require('../config.php');
 require($cfg_webRoot.'lib/debug.php');
 
-if(empty($_POST['submit']) || empty($_SESSION['mname'])) {
+if((empty($_POST['submit'])&&empty($_POST['modify'])) || empty($_SESSION['mname'])) {
 // 需要管理员权限访问此页面，否则跳转至首页
 	lib_delay_jump(3, '对不起，您不应直接访问此页面');
 }
+if(!empty($_POST['modify']) && empty($_GET['aid'])){
+	lib_delay_jump(3, '对不起，参数不全或有误');
+}
+if(isset($_GET['aid'])) { $aid = $_GET['aid'];}
 // 此处需要基本的数据检验 !! 注意空字符串和NULL的区别
 $name = trim($_POST['article_name']);
 $content = trim($_POST['article_content']);
@@ -56,9 +60,17 @@ if( empty($name) || empty($content) || !isset($is_artist)
 	// 写数据库
 	require($cfg_dbConfFile);
 	$dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);	// $dbcfg_xxx initialed in dbConf.php
-	$sql_insert_article = 'insert into Articles values ( NULL, :name, :content,
-				:source, :author, :picture, :is_artist, :added_by, now(), :no_comment, :is_hidden)';
+	if(isset($_POST['modify']) && isset($aid)) {
+		$sql_insert_article = 'update Articles set article_name=:name, content=:content,
+			source=:source, author=:author, picture=:picture, is_artist=:is_artist, added_by=:added_by, pub_date=now(), no_comment=:no_comment, is_hidden=:is_hidden where article_id='.$aid.' limit 1';
+	} else {
+		$sql_insert_article = 'insert into Articles values ( NULL, :name, :content,
+			:source, :author, :picture, :is_artist, :added_by, now(), :no_comment, :is_hidden)';
+	}	
 	$sth_insert_article = $dbh->prepare($sql_insert_article);
+	if(isset($aid)) {
+//		$sth_insert_article->bindParam(':aid', $aid, PDO::PARAM_INT);
+	}
 	$sth_insert_article->bindParam(':name', $name, PDO::PARAM_STR, 90);
 	$sth_insert_article->bindParam(':content', $content, PDO::PARAM_STR, 2000);
 	$sth_insert_article->bindParam(':source', $source, PDO::PARAM_STR, 90);

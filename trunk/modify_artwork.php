@@ -29,7 +29,8 @@ $count_res = $sth_count->fetch(PDO::FETCH_ASSOC);
 $count = $count_res['count'];
 $type = 'work';
 $main_content_head = '艺术品详情修改';
-if ( !isset($_GET['id']) || ($_GET['id'] < 1) || ($_GET['id'] > $count)) {
+//if ( !isset($_GET['id']) || ($_GET['id'] < 1) || ($_GET['id'] > $count)) {
+if ( !isset($_GET['id']) || !($_GET['id'] > 0) ) {
 	lib_delay_jump(3, '您所管理的艺术品不存在');
 }
 $id = intval($_GET['id']);
@@ -39,6 +40,9 @@ $sth_select_artwork->bindParam(':id', $id, PDO::PARAM_INT);
 // read the database
 lib_pdo_if_fail($sth_select_artwork->execute(), $sth_select_artwork, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE);
 $artworks = $sth_select_artwork->fetchAll(PDO::FETCH_ASSOC);
+if(0 === count($artworks)) {
+	lib_delay_jump(3, '您所管理的艺术品不存在');
+}
 ?>
 
 <?php require('include/dochead.php'); ?>
@@ -80,9 +84,9 @@ if ( 'sale' == $type || 'all' == $type ) {
 	echo '<label for="size">作品尺寸：<input id="size" name="size" value="'.$artwork['artwork_size'].'" /></label><br />';
 	echo '<label for="author">作品作者：<input id="author" name="author" value="'.$artwork['author'].'" /></label><br />';
 	echo '<label for="period">作品时期：<input id="period" name="period" value="'.$artwork['period'].'" /></label><br />';
-	echo '<label for="intro">作品简介：<input id="intro" name="intro" value="'.$artwork['intro'].'" /></label><br />';
-	echo '<label for="detail">详细介绍：<textarea id="detail" name="detail" wrap="virtual" >'.$artwork['detail'].'</textarea></label><br />';
-	echo '<label for="intro">作品价格：<input id="price" name="price" value="'.$artwork['price'].'" /></label><br />';
+	echo '<label for="intro">作品简介：<textarea id="intro" name="intro" cols="20" rows="2">'.$artwork['intro'].'</textarea></label><br />';
+	echo '<label for="detail">详细介绍：<textarea id="detail" name="detail" wrap="virtual" cols="40" rows="40">'.$artwork['detail'].'</textarea></label><br />';
+	echo '<label for="price">作品价格：<input id="price" name="price" value="'.$artwork['price'].'" /></label><br />';
 	echo '<label for="amount">作品数量：<input id="amount" name="amount" value="'.$artwork['amount'].'" /></label><br />';
 	echo '作品类型：<select id="type" name="type" >';
 	foreach( $_SESSION['artwork_types'] as $key => $value ) {

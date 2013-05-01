@@ -9,7 +9,7 @@ if(empty($_GET['aid']) || empty($_SESSION['mname'])) {
 }
 // 此处需要基本的数据检验 !! 注意空字符串和NULL的区别
 $name = trim($_POST['article_name']);
-$content = trim($_POST['article_content']);
+$content = rtrim($_POST['article_content']);
 $source = trim($_POST['article_source']);
 $author = trim($_POST['article_author']);
 if(empty($_FILES['article_image'])) {

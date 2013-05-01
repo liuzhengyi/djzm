@@ -2,7 +2,7 @@
 session_start();
 /* /action/modify_artwork.php by gipsaliu(at)gmail(dot)com on 2013-02-06
  * 
- * 本程序负责更改艺术品的两个状态属性：是否出售 和 是否隐藏
+ * 本程序负责提供更改艺术品的接口
  * 本文件通过url接收两个参数：
  * type = 'sale' | 'hide'
  * id = [0-9]+
@@ -41,10 +41,10 @@ if( !$id_exist['exist'] ) {
 $sess_artwork_types = $_SESSION['artwork_types'];
 if( isset($_POST['name']) )	$name	= trim($_POST['name']);
 if( isset($_POST['size']) )	$size	= trim($_POST['size']);
-if( isset($_POST['author']) )	$author	= trim($_POST['author']);
+if( isset($_POST['author']) )	$author	= rtrim($_POST['author']);
 if( isset($_POST['period']) )	$period	= trim($_POST['period']);
-if( isset($_POST['intro']) )	$intro	= trim($_POST['intro']);
-if( isset($_POST['detail']) )	$detail	= trim($_POST['detail']);
+if( isset($_POST['intro']) )	$intro	= rtrim($_POST['intro']);
+if( isset($_POST['detail']) )	$detail	= rtrim($_POST['detail']);
 if( isset($_POST['price']) )	$price	= trim($_POST['price']);
 if( isset($_POST['amount']) )	$amount	= trim($_POST['amount']);
 if( isset($_POST['type']) )	$type	= trim($_POST['type']);
