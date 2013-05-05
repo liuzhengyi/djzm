@@ -46,7 +46,7 @@ class SimpleCaptcha {
         $text = $this->GetCaptchaText();
         $this->WriteText($text);
         session_start();
-        $_SESSION[$this->session_var] = $text;
+        $_SESSION[$this->session_var] = strtolower($text);
 				if($this->height>30) {
 					$this->WaveImage();
 				}
