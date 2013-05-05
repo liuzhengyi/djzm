@@ -43,7 +43,8 @@ if(empty($_GET['error'])) {
 require($cfg_dbConfFile);
 $dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);
 // 获取留言数目 供分页栏使用
-$sql_msg_count = 'select count(1) as count from Messages where is_checked = 1 AND parent_id IS NULL';
+//$sql_msg_count = 'select count(1) as count from Messages where is_checked = 1 AND parent_id IS NULL';
+$sql_msg_count = 'select count(1) as count from Messages where parent_id IS NULL';
 $sth_msg_count = $dbh->prepare($sql_msg_count);
 lib_pdo_if_fail( $sth_msg_count->execute(), $sth_msg_count, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
 $msg_count_res = $sth_msg_count->fetch(PDO::FETCH_ASSOC);
@@ -75,9 +76,9 @@ if ( 0 == $sth_select_message->rowCount() ) {
 	$sql_select_reply = "select * from Messages where message_id in ( $son_ids )";
 	$sth_select_reply = $dbh->prepare($sql_select_reply);
 	lib_pdo_if_fail( $sth_select_reply->execute(), $sth_select_reply, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
+	$sorted_replys = array();
 	if( 0 < $sth_select_reply->rowCount() ) {
 		$replys = $sth_select_reply->fetchAll(PDO::FETCH_ASSOC);
-		$sorted_replys = array();
 		foreach( $replys as $reply ) {
 			$sorted_reply = $reply;
 			$sorted_replys[$reply['message_id']] = $sorted_reply;
@@ -106,11 +107,22 @@ foreach( $messages as $msg ) {
 		$checked = '未通过';
 		$change = "<a href=\"action/change_message_status.php?id={$msg['message_id']}\">更改为已通过</a>";
 	}
+	$delete = "<a href=\"action/delete_message.php?mid={$msg['message_id']}\">删除(!)</a>";
 	echo "\t\t<p>第 {$msg['message_id']} 条留言：</p>";
-	echo "\t\t<p>{$msg['content']}\n";
-	echo "<p>by: {$msg['pub_name']} | on: {$msg['pub_time']} | 审核状态： $checked ($change) | ";
+	echo '<p>';
+	$msg_content_show = str_replace(" ", '&nbsp;', $msg['content']);
+	$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
+	//echo "\t\t<p>{$msg['content']}\n";
+	echo "$msg_content_show\n";
+	//echo "\t\t<p>{$msg['content']}\n";
+	echo "<p>by: {$msg['pub_name']} | on: {$msg['pub_time']} | 联系方式： {$msg['pub_email_or_tel']} <br /> 审核状态： $checked ($change) | $delete | ";
 	if( array_key_exists($msg['son_id'], $sorted_replys) ) {
-		echo "<p color=\"red\"><strong>管理员回复：<br />{$sorted_replys[$msg['son_id']]['content']}</strong></p>";
+		//echo "<p color=\"red\"><strong>管理员回复：<br />{$sorted_replys[$msg['son_id']]['content']}</strong></p>";
+		echo '<p>';
+		$msg_content_show = str_replace(" ", '&nbsp;', $sorted_replys[$msg['son_id']]['content']);
+		$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
+		//echo "\t\t<p>{$msg['content']}\n";
+		echo "<p color=\"red\"><strong>管理员回复：<br />$msg_content_show</strong></p>";
 	}
 	if(empty($msg['son_id'])) { echo "<a href=\"control_message.php?id={$msg['message_id']}#add_reply\">回复</a></p>"; };
 	echo '<hr class="clear_line" />';
@@ -124,9 +136,7 @@ foreach( $messages as $msg ) {
 		<p class="error"><?php echo $error_msg; ?></p>
 		<form action="action/add_message.php?type=reply" method="post" >
 			<label for="input_id">回复第<input type="text" name="id" id="input_id" value="<?php if(isset($_GET['id'])) {echo $_GET['id']; } ?>" />条留言</label><span class="input_hint">(*必填)</span><br />
-			<label for="input_content">回复内容：<input type="text" name="message_content" id="input_content" /></label><span class="input_hint">(*必填)</span><br />
-			<label for="input_code">验证字符：<input type="text" name="veri_code" id="input_code" /></label><span class="input_hint">(*必填  不区分大小写)</span><br />
-			验证图片：<a href="./message.php?rand=<?php echo rand(); ?>#add_message"><img src="lib/verify_code.php" />看不清？</a><br />
+			<label for="input_content">回复内容：<textarea name="message_content" id="input_content" cols="20" rows="10" ></textarea></label><span class="input_hint">(*必填)</span><br />
 			<input type="submit" name="submit" value="确认回复" />
 		</form>
 		</div><!-- end of DIV add_message -->

@@ -31,7 +31,9 @@ if( isset($_GET['type']) &&  'reply' == $_GET['type'] ) {
 	$contact = trim($_POST['message_contact']);	// pub_email_or_tel
 }
 $content = trim($_POST['message_content']);
-$veri_code = trim($_POST['veri_code']);
+if(isset($_POST['veri_code'])) {
+	$veri_code = trim($_POST['veri_code']);
+}
 
 if(CFG_DEBUG) {	// 调试信息
 if(empty($content)) {
@@ -43,18 +45,32 @@ if(empty($content)) {
 } else {}
 }
 
+if( !(isset($_GET['type']) && 'reply' == $_GET['type']) ) {
+	$verify_code = $_SESSION['verifyCode'];
+	if( empty($veri_code) || ($verify_code !== $veri_code) ) {
+		$url = $cfg_siteRoot.'message.php?error=wrongcode&message_head='.$_POST['message_head'].'&message_content='.$_POST['message_content'].'&message_author='.$_POST['message_author'].'&message_contact='.$_POST['message_contact'].'#add_reply';
+	$name = '发表留言页面';
+	$msg = '对不起，验证码错误，请重新填写';
+	//$msg = '对不起，验证码错误，请重新填写('.$verify_code.'|'.$veri_code.')';
+	lib_delay_jump(3, $msg, $url, $name);
+	}
+}
+
 // 检测验证码的有效性
+/*
 $verify_code = $_SESSION['verifyCode'];
-if( empty($veri_code) && ($verify_code !== $veri_code) ) {
+if( empty($veri_code) || ($verify_code !== $veri_code) ) {
 	if( isset($_GET['type']) && 'reply' == $_GET['type'] ) {
 		$url = $cfg_siteRoot.'control_message.php?error=wrongcode#add_reply';
 	} else {
-		$url = $cfg_siteRoot.'message.php?error=wrongcode#add_message';
+		$url = $cfg_siteRoot.'message.php?error=wrongcode&message_head='.$_POST['message_head'].'&message_content='.$_POST['message_content'].'&message_author='.$_POST['message_author'].'&message_contact='.$_POST['message_contact'].'#add_reply';
 	}
 	$name = '发表留言页面';
 	$msg = '对不起，验证码错误，请重新填写';
 	lib_delay_jump(3, $msg, $url, $name);
 }
+*/
+
 // 检测表单数据的有效性
 if( empty($contact) || empty($content) || empty($author)  ||  (isset($_GET['type']) && 'reply' == $_GET['type'] && empty($parent_id)) ) {
 	// 必需数据不全	!! 此处可以使用 lib_delay() 跳转

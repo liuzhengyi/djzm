@@ -73,9 +73,9 @@ if ( 0 == $sth_select_message->rowCount() ) {
 	$sql_select_reply = "select * from Messages where message_id in ( $son_ids )";
 	$sth_select_reply = $dbh->prepare($sql_select_reply);
 	lib_pdo_if_fail( $sth_select_reply->execute(), $sth_select_reply, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
+	$sorted_replys = array();
 	if( 0 < $sth_select_reply->rowCount() ) {
 		$replys = $sth_select_reply->fetchAll(PDO::FETCH_ASSOC);
-		$sorted_replys = array();
 		foreach( $replys as $reply ) {
 			$sorted_reply = $reply;
 			$sorted_replys[$reply['message_id']] = $sorted_reply;
@@ -85,6 +85,7 @@ if ( 0 == $sth_select_message->rowCount() ) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<script type="text/javascript" src="./scripts/reload_message_page.js" charset="utf-8"></script>
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -96,7 +97,11 @@ if ( 0 == $sth_select_message->rowCount() ) {
 		<div id="messages">
 <?php
 foreach( $messages as $msg ) {
-	echo "\t\t<p>{$msg['content']}\n";
+	echo '<p>';
+	$msg_content_show = str_replace(" ", '&nbsp;', $msg['content']);
+	$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
+	//echo "\t\t<p>{$msg['content']}\n";
+	echo "$msg_content_show\n";
 	echo "<p>by: {$msg['pub_name']} | on: {$msg['pub_time']}</p>";
 	if( array_key_exists($msg['son_id'], $sorted_replys) ) {
 		echo "<p color=\"red\"><strong>管理员回复：<br />{$sorted_replys[$msg['son_id']]['content']}</strong></p>";
@@ -114,12 +119,12 @@ lib_dump_page_bar($url, $total_page, $page, true);
 		<hr />
 		<p class="error"><?php echo $error_msg; ?></p>
 		<form action="./action/add_message.php" method="post" >
-			<label for="input_head">留言标题：<input type="text" name="message_head" id="input_head" /></label><span class="input_hint">(*必填)</span><br />
-			<label for="input_content">留言内容：<input type="text" name="message_content" id="input_content" /></label><span class="input_hint">(*必填)</span><br />
-			<label for="input_author">您的称呼：<input type="text" name="message_author" id="input_author" /></label><span class="input_hint">(*必填)</span><br />
-			<label for="input_contact">联系方式：<input type="text" name="message_contact" id="input_contact" /></label><span class="input_hint">(*必填 我们会为您保密)</span><br />
+			<label for="input_head">留言标题：<input type="text" name="message_head" id="input_head" value="<?php if(isset($_GET['message_head'])){echo $_GET['message_head'];}?>" /></label><span class="input_hint">(*必填)</span><br />
+			<label for="input_content">留言内容：<textarea name="message_content" id="input_content" cols="20" rows="10"><?php if(isset($_GET['message_content'])){echo $_GET['message_content'];}?></textarea></label><span class="input_hint">(*必填)</span><br />
+			<label for="input_author">您的称呼：<input type="text" name="message_author" id="input_author" value="<?php if(isset($_GET['message_author'])){echo $_GET['message_author'];}?>" /></label><span class="input_hint">(*必填)</span><br />
+			<label for="input_contact">联系方式：<input type="text" name="message_contact" id="input_contact" value="<?php if(isset($_GET['message_contact'])){echo $_GET['message_contact'];} ?>" /></label><span class="input_hint">(*必填 我们会为您保密)</span><br />
+			验证图片：<a href="./message.php?rand=<?php echo rand(); ?>#add_message" onclick="get_reload_url('./message.php', '&rand=<?php echo rand();?>#add_message'); return false;" ><img src="lib/verify_code.php" />看不清？</a><br /> 
 			<label for="input_code">验证字符：<input type="text" name="veri_code" id="input_code" /></label><span class="input_hint">(*必填  不区分大小写)</span><br />
-			验证图片：<a href="./message.php?rand=<?php echo rand(); ?>#add_message"><img src="lib/verify_code.php" />看不清？</a><br />
 			<input type="submit" name="submit" value="post" />
 		</form>
 		</div><!-- end of DIV add_message -->
