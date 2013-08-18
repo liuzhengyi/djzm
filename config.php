@@ -53,6 +53,7 @@ $cfg_max_upload_file_size = 3*1024*1024;	// 上传文件尺寸的上限，单位
 $cfg_upload_dir = $cfg_webRoot."uploads/";
 $cfg_upload_img_dir = $cfg_upload_dir."images/";
 $cfg_upload_img_ar_dir = $cfg_upload_img_dir."ar/";	// 文章配图上传目录
+//$cfg_upload_img_ar_dir = "./uploads/ar/";	// 文章配图上传目录
 $cfg_upload_img_aw_dir = $cfg_upload_img_dir."aw/";	// 古董图片上传目录
 $cfg_la_dir = "la/";	// 古董图片大图上传目录
 $cfg_mi_dir = "mi/";	// 古董图片中图上传目录
@@ -62,9 +63,22 @@ $cfg_upload_article_dir = $cfg_upload_dir."articles/";
 // smtp  设置
 
 // 分页配置
-$cfg_aw_per_page = 8;	// 艺术品列表每页显示数量
+$cfg_aw_per_page = 3;	// 艺术品列表每页显示数量
 $cfg_ar_per_page = 6;	// 文章列表每页显示数量
-$cfg_ms_per_page = 6;	// 留言列表每页显示数量
+$cfg_ms_per_page = 3;	// 留言列表每页显示数量
+
+// artwork_types
+// 下面的内容应该放在一个单独的header包含文件里
+if(!isset($_SESSION['artwork_types'])) {
+	$dbh = new PDO('mysql:dbname=guyin;host=localhost;charset=utf8', 'guyin_user', 'asguyin_user');
+	$sql = "select type_name_en as en, type_name_zh as zh from ArtworkTypes";
+	$res = $dbh->query($sql);
+	$artwork_types = array();
+	foreach($res as $row) {
+		$artwork_types[$row['en']] = $row['zh'];
+	}
+	$_SESSION['artwork_types'] = $artwork_types;
+}
 
 
 ?>

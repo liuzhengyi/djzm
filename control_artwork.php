@@ -51,6 +51,7 @@ $artworks = $sth_select_artwork->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -95,7 +96,7 @@ echo "<hr class=\"clear_line\" />\n";
 			<label for="input_author">作者<input type="text" name="artwork_author" id="input_author" /></label><br />
 			<label for="input_period">时期<input type="text" name="artwork_period" id="input_period" /></label><br />
 			<label for="input_intro">简介<textarea id="input_intro" name="artwork_intro" cols="20" rows="2"></textarea></label><br />
-			<label for="input_detail">详细<textarea name="artwork_detail" id="input_detail" cols="40" rows="40"></textarea></label><br />
+			<label for="input_detail"><span>详细</span><textarea name="artwork_detail" id="input_detail" cols="40" rows="40"></textarea></label><br />
 			<label for="input_price">价格<input type="text" name="artwork_price" id="input_price" /></label><br />
 			<label for="input_amount">数量<input type="text" name="artwork_amount" id="input_amount" /></label><br />
 			类型<select name="artwork_type" id="choose_type">
@@ -120,9 +121,9 @@ echo "<hr class=\"clear_line\" />\n";
 		</div><!-- end of DIV add_artwork -->
 		<hr class="clear_line"/>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

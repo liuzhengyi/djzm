@@ -10,6 +10,7 @@ if(empty($_SESSION['mname'])) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -57,9 +58,9 @@ if(empty($_SESSION['mname'])) {
 		</div>
 		</ol>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

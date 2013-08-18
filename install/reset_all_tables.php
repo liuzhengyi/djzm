@@ -1,4 +1,5 @@
 <?php
+/*
 //session_start();
 require('../config.php');
 require($cfg_webRoot.$cfg_lib.'install.php');
@@ -31,4 +32,5 @@ foreach($statments as $statment) {
 	echo "\n".'the following Statment is executed:'."\n";
 	var_dump($sql_reset_table);
 }
+*/
 ?>

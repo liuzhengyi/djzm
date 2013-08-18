@@ -2,6 +2,7 @@
 session_start();
 require('../config.php');
 require($cfg_webRoot.$cfg_lib.'debug.php');
+require($cfg_webRoot.$cfg_lib.'resize_image_djzm.php');
 
 if(empty($_POST['submit'])) {
 // 直接访问此页面，跳转至首页
@@ -48,11 +49,12 @@ if(empty($image['tmp_name']) || empty($name)
 	exit();
 } else {
 	// 检测通过，将上传文件移动到指定位置
-	$upload_file = $cfg_upload_img_aw_dir.$image['name'];
+	$upload_file = $cfg_upload_img_aw_dir. uniqid(). $image['name'];
+	
 	if(!move_uploaded_file($image['tmp_name'], $upload_file)) {
 	// 移动文件失败，可能是客户端在进行攻击		// 判断错误原因 !!
-		var_dump( $_FILES['artwork_image']['error']);
-		exit();
+	//	var_dump( $_FILES['artwork_image']['error']);
+	//	exit();
 		header("Location:../add_artwork.php?error=handleerror");	// 处理上传文件失败
 		exit();
 	}
@@ -67,10 +69,17 @@ if(empty($image['tmp_name']) || empty($name)
 	$img_large = $relative_path.'/'.$cfg_la_dir.$basename.'_large'.$extension;
 	$img_middle = $relative_path.'/'.$cfg_mi_dir.$basename.'_middle'.$extension;
 	$img_small = $relative_path.'/'.$cfg_sm_dir.$basename.'_small'.$extension;
-	// 生成大图，中图和小图	!!
 	rename($upload_file, $cfg_webRoot.$img_large);
+	// 生成中图和小图	!!
+	$src_file = $cfg_webRoot.$img_large;
+	$dst_file = $cfg_webRoot.$img_middle;
+	resizeimage($src_file, $dst_file, 600, 450);
+	$dst_file = $cfg_webRoot.$img_small;
+	resizeimage($src_file, $dst_file, 200, 150);
+	/*
 	copy($cfg_webRoot.$img_large, $cfg_webRoot.$img_middle);
 	copy($cfg_webRoot.$img_large, $cfg_webRoot.$img_small);
+	*/
 
 require($cfg_dbConfFile);
 //require($cfg_webRoot.$cfg_lib.'debug.php');
@@ -78,7 +87,7 @@ require($cfg_dbConfFile);
 	$sql_insert_artwork = 'insert into Artworks values ( NULL, :name, :type, 
 				:size, :img_small, :img_middle, :img_large,
 				:author, :period, :intro, :detail, :price,
-				:amount, :added_by, :on_sale, :no_comment, :is_hidden)';
+				:amount, :added_by, now(), :on_sale, :no_comment, :is_hidden)';
 	$sth_insert_artwork = $dbh->prepare($sql_insert_artwork);
 	$sth_insert_artwork->bindParam(':name', $name, PDO::PARAM_STR, 120);
 	$sth_insert_artwork->bindParam(':type', $type, PDO::PARAM_STR, 7);

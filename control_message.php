@@ -88,6 +88,7 @@ if ( 0 == $sth_select_message->rowCount() ) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -122,7 +123,7 @@ foreach( $messages as $msg ) {
 		$msg_content_show = str_replace(" ", '&nbsp;', $sorted_replys[$msg['son_id']]['content']);
 		$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
 		//echo "\t\t<p>{$msg['content']}\n";
-		echo "<p color=\"red\"><strong>管理员回复：<br />$msg_content_show</strong></p>";
+		echo "<p ><strong>管理员回复：<br />$msg_content_show</strong></p>";
 	}
 	if(empty($msg['son_id'])) { echo "<a href=\"control_message.php?id={$msg['message_id']}#add_reply\">回复</a></p>"; };
 	echo '<hr class="clear_line" />';
@@ -142,9 +143,9 @@ foreach( $messages as $msg ) {
 		</div><!-- end of DIV add_message -->
 		<hr class="clear_line"/>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

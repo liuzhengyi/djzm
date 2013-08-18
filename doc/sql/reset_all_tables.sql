@@ -6,7 +6,8 @@ CREATE TABLE `Articles` (
 	content TEXT NOT NULL,				-- 文章内容，此数据类型需要查看，两千汉字以内
 	source VARCHAR(90) default '网络' NOT NULL,	-- 文章来源，30个汉字以内
 	author VARCHAR(45) default '匿名' NOT NULL,	-- 文章作者，15个汉字以内，多个作者以空格隔开
-	picture VARCHAR(255),				-- 文章配图，图片路径
+	la_picture VARCHAR(255),				-- 文章配图-大，图片路径
+	sm_picture VARCHAR(255),				-- 文章配图-小，图片路径
 	is_artist BOOLEAN DEFAULT 0 NOT NULL,		-- 是否为名家推荐类的文章 默认为否(即艺术视角类文章)
 	added_by BIGINT UNSIGNED NOT NULL,		-- 录入此文章的管理员ID，有外键约束 Masters(master_id)
 	pub_date DATE NOT NULL,				-- 录入时间
@@ -41,7 +42,8 @@ CREATE TABLE `Artworks` (
 	price INT UNSIGNED,			-- 艺术品标价，无符号整型，16777215以内，单位为元
 	amount TINYINT UNSIGNED,		-- 艺术品数量，255以内
 	added_by BIGINT UNSIGNED NOT NULL ,	-- 添加此艺术品的管理员ID，有外键约束 Masters(master_id)
-	on_sale BOOLEAN DEFAULT 1,		-- 是否出售，默认出售
+	added_time DATETIME NOT NULL ,		-- 添加此艺术品的时间
+	on_sale BOOLEAN DEFAULT 0,		-- 是否出售，默认不出售
 	no_comment BOOLEAN DEFAULT 0,		-- 是否不允许留言，默认允许
 	is_hidden BOOLEAN DEFAULT 0,		-- 是否隐藏，默认不隐藏
 --	UNIQUE(artwork_no),
@@ -93,3 +95,9 @@ CREATE TABLE `Messages` (
 	is_checked BOOLEAN DEFAULT 0,		-- 是否审核通过，默认为否
 	checked_by BIGINT UNSIGNED DEFAULT NULL	-- 最后一次审核者id
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET = UTF8;
+
+/*
+select message_id, content, son_id from Message where son_id >= 0 limit 10;
+$son_id = {1, 0, 2, 0, 4, 0, 0}j
+select message_id, content from Message where message_id in ( 1, 2, 3)
+*/

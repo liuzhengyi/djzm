@@ -6,7 +6,8 @@ CREATE TABLE `Articles` (
 	content TEXT NOT NULL,				-- 文章内容，此数据类型需要查看，两千汉字以内
 	source VARCHAR(90) default '网络' NOT NULL,	-- 文章来源，30个汉字以内
 	author VARCHAR(45) default '匿名' NOT NULL,	-- 文章作者，15个汉字以内，多个作者以空格隔开
-	picture VARCHAR(255),				-- 文章配图，图片路径
+	la_picture VARCHAR(255),				-- 文章配图-大，图片路径
+	sm_picture VARCHAR(255),				-- 文章配图-小，图片路径
 	is_artist BOOLEAN DEFAULT 0 NOT NULL,		-- 是否为名家推荐类的文章 默认为否(即艺术视角类文章)
 	added_by BIGINT UNSIGNED NOT NULL,		-- 录入此文章的管理员ID，有外键约束 Masters(master_id)
 	pub_date DATE NOT NULL,				-- 录入时间

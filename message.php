@@ -61,7 +61,7 @@ $sth_select_message->bindParam(':start', $start, PDO::PARAM_INT);
 $sth_select_message->bindParam(':per_page', $per_page, PDO::PARAM_INT);
 lib_pdo_if_fail( $sth_select_message->execute(), $sth_select_message,  __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
 if ( 0 == $sth_select_message->rowCount() ) {
-	$messages = 'no content';	// no data handling !!
+	$messages = '';	// no data handling !!
 } else {
 	$messages = $sth_select_message->fetchAll(PDO::FETCH_ASSOC);
 	// 检索到用户留言，下面检索这些留言的回复
@@ -89,6 +89,7 @@ if ( 0 == $sth_select_message->rowCount() ) {
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 </div> <!-- end of DIV header -->
 <div id="body">
 	<div id="main_content" class="content_block" >
@@ -96,22 +97,25 @@ if ( 0 == $sth_select_message->rowCount() ) {
 		<hr />
 		<div id="messages">
 <?php
-foreach( $messages as $msg ) {
-	echo '<p>';
-	$msg_content_show = str_replace(" ", '&nbsp;', $msg['content']);
-	$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
-	//echo "\t\t<p>{$msg['content']}\n";
-	echo "$msg_content_show\n";
-	echo "<p>by: {$msg['pub_name']} | on: {$msg['pub_time']}</p>";
-	if( array_key_exists($msg['son_id'], $sorted_replys) ) {
-		echo "<p color=\"red\"><strong>管理员回复：<br />{$sorted_replys[$msg['son_id']]['content']}</strong></p>";
+if ( !is_array($messages) ) {
+	echo '<h3>暂无留言</h3>';
+} else {
+	foreach( $messages as $msg ) {
+		$msg_content_show = str_replace(" ", '&nbsp;', $msg['content']);
+		$msg_content_show = str_replace("\n", '<br />', $msg_content_show);
+		//echo "\t\t<p>{$msg['content']}\n";
+		echo "<p class=\"auto-break\">$msg_content_show</p>\n";
+		echo "<p>by: {$msg['pub_name']} | on: {$msg['pub_time']}</p>";
+		if( array_key_exists($msg['son_id'], $sorted_replys) ) {
+			echo "<p color=\"red\"><strong>管理员回复：<br />{$sorted_replys[$msg['son_id']]['content']}</strong></p>";
+		}
+		echo '<hr />';
 	}
-	echo '<hr />';
+	echo '<hr class="clear_line">'."\n";
+	// 分页栏
+	$url = $_SERVER['SCRIPT_NAME']."?page=";
+	lib_dump_page_bar($url, $total_page, $page, true);
 }
-echo '<hr class="clear_line">'."\n";
-// 分页栏
-$url = $_SERVER['SCRIPT_NAME']."?page=";
-lib_dump_page_bar($url, $total_page, $page, true);
 ?>
 		</div> <!-- end of DIV messages -->
 		<div id="add_message">
@@ -119,20 +123,20 @@ lib_dump_page_bar($url, $total_page, $page, true);
 		<hr />
 		<p class="error"><?php echo $error_msg; ?></p>
 		<form action="./action/add_message.php" method="post" >
+			验证图片：<a href="./message.php?rand=<?php echo rand(); ?>#add_message" onclick="get_reload_url('./message.php', '&rand=<?php echo rand();?>#add_message'); return false;" ><img src="lib/verify_code.php" />看不清？</a><br /> 
+			<label for="input_code">验证字符：<input type="text" name="veri_code" id="input_code" /></label><span class="input_hint">(*必填  四个字符 不区分大小写)</span><br />
 			<label for="input_head">留言标题：<input type="text" name="message_head" id="input_head" value="<?php if(isset($_GET['message_head'])){echo $_GET['message_head'];}?>" /></label><span class="input_hint">(*必填)</span><br />
 			<label for="input_content">留言内容：<textarea name="message_content" id="input_content" cols="20" rows="10"><?php if(isset($_GET['message_content'])){echo $_GET['message_content'];}?></textarea></label><span class="input_hint">(*必填)</span><br />
 			<label for="input_author">您的称呼：<input type="text" name="message_author" id="input_author" value="<?php if(isset($_GET['message_author'])){echo $_GET['message_author'];}?>" /></label><span class="input_hint">(*必填)</span><br />
 			<label for="input_contact">联系方式：<input type="text" name="message_contact" id="input_contact" value="<?php if(isset($_GET['message_contact'])){echo $_GET['message_contact'];} ?>" /></label><span class="input_hint">(*必填 我们会为您保密)</span><br />
-			验证图片：<a href="./message.php?rand=<?php echo rand(); ?>#add_message" onclick="get_reload_url('./message.php', '&rand=<?php echo rand();?>#add_message'); return false;" ><img src="lib/verify_code.php" />看不清？</a><br /> 
-			<label for="input_code">验证字符：<input type="text" name="veri_code" id="input_code" /></label><span class="input_hint">(*必填  不区分大小写)</span><br />
 			<input type="submit" name="submit" value="post" />
 		</form>
 		</div><!-- end of DIV add_message -->
 		<hr class="clear_line"/>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

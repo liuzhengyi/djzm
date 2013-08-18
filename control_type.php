@@ -34,13 +34,14 @@ if(empty($_SESSION['artwork_types'])) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
 </div> <!-- end of DIV header -->
 <div id="body">
 	<div id="main_content" class="content_block" >
-		<h4 id="main_content_head">添加文章</h4>
+		<h4 id="main_content_head">管理分类</h4>
 		<hr />
 		<p class="error"><?php echo $error_msg; ?></p>
 		<div id="cur_types">
@@ -63,9 +64,9 @@ foreach($artwork_types as $name_en => $name_zh) {
 		</div><!-- end of DIV add_type -->
 		<hr class="clear_line"/>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

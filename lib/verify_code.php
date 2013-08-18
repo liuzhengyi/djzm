@@ -9,7 +9,7 @@ class SimpleCaptcha {
     public $width  = 120;
     public $height = 50;
 		public $glbVerifySeed = "234578acdefhijgkmnpqrstuvxyzABCDEFGHIJKLMNPQRSTUVWXYZ";
-		public $strLength = 5;
+		public $strLength = 4;
     public $session_var = 'verifyCode';
     public $backgroundColor = array(255, 255, 255);
     public $colors = array(
@@ -52,7 +52,7 @@ class SimpleCaptcha {
 				}
         $this->ReduceImage();
 				$this->Pollute();
-				$this->Line();
+				//$this->Line();
         $this->WriteImage();
         $this->Cleanup();
     }
