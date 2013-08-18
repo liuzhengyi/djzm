@@ -1,0 +1,207 @@
+/*a* { outline: 1px dotted green; } */
+html {
+/*	background: url(../pic/css/html_bg.gif) ;*/
+	background-color: #fff;
+}
+body {
+	position: relative;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+img#indeximg {
+border:0;
+}
+
+/* DIVs in header */
+div#header {
+/*
+	width: 900px;
+	height: 120px;
+	margin-left: auto;
+	margin-right: auto;
+	background: url(../pic/css/djzmlogo.png) no-repeat; */
+}
+
+div#header_logo {
+/*
+	width: 900px;
+	height: 150px;
+	color: #ddd;
+	font-size: 1.2em;
+	margin-left: auto;
+	margin-right: auto;
+	*/
+}
+div#main_menu {
+/*
+	width: 900px;
+	height: 72px;
+	margin-left: auto;
+	margin-right: auto;
+	background: url('../pic/css/main_menu_bg.png');*/
+}
+div#main_menu ul {
+	margin-top: 10px;
+	margin-left: 0;
+	margin-bottom: 0;
+	margin-right: 0;
+	padding-top: 12px;
+	padding-right: auto;
+	padding-bottom: 0;
+	padding-left: auto;
+}
+div#main_menu li {
+	display: inline;
+	margin-left: 1%;
+	margin-right: 1%;
+	font-size: 1.1em;
+}
+div#header_navi {
+	margin-left: auto;
+	margin-right: auto;
+}
+div#header_navi p {
+/*
+	height: 25px;
+	font-size: .8em;
+	padding-left: 30px;
+	padding-top: 5px;
+	*/
+}
+
+/* DIVs in body */
+div#body {
+	width: 1029px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+div#main_content {
+	width: 70%;
+	position: relative;
+	float: right;
+/*	background: url(../pic/css/body_bg.gif);*/
+	margin-bottom: 25px;
+	color: #cfc;
+}
+div#main_content a {
+	color: #55c;
+}
+div#footer a {
+	color: #55c;
+}
+div#sub_main_content {
+	width: 24%;
+	position: relative;
+	float: right;
+	padding: 0;
+}
+div#sub_menu { position: relative; margin: 10px }
+div#item_search { position: relative; margin: 10px }
+div#console { position: relative; margin: 10px; color: #abc; }
+div#console a {color: #56f;}
+div#login_reg { position: relative; margin: 10px }
+
+div#main_menu {
+	position: relative;
+	float: left;
+}
+
+/* DIVs in footer */
+div#footer {
+	position: relative;
+	top: -120px;
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+
+	font-size: 0.9em;
+}
+.clear_line {
+	clear: both;
+}
+div#footer p,ul { margin:0; }
+/*p#footerurl { font-size: 1em; color:#f44;} */
+div#copyright {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* classes */
+/* 有边框的内容块 content_block */
+.auto-break { word-break: break-all;}
+div.content_block {
+	margin: 0;
+	padding: 20px;
+	/*background: url(../pic/css/body_bg.gif); */
+	/*border: 1px solid black;*/
+}
+
+div.content_block img.content_block_top_left { height: 15px; width: 15px; position: absolute; left:0; top:0; }
+div.content_block img.content_block_top_right { height: 15px; width: 15px; position: absolute; right:0; top:0; }
+div.content_block img.content_block_bottom_left { height: 15px; width: 15px; position: absolute; left:0; bottom:0; }
+div.content_block img.content_block_bottom_right { height: 15px; width: 15px; position: absolute; right:0; bottom:0; }
+
+/* 有边框的标题块 header_block */
+div.header_block { /*background: url(../pic/css/td3.gif) repeat-x; position: relative; height: 24px; margin: 10px; padding-left: 20px; */}
+div.header_block img.header_block_left { position: absolute; left:0; }
+div.header_block img.header_block_right { position: absolute; right:0; }
+div.header_block p { height: 25px; padding-top: 3px; font-size: .9em; font-weight: bold; color: #fed;}
+
+
+#main_content_head { margin: 0; }
+#header_of_sub_menu {margin-top: 0;}
+
+/* 收藏证书举例 */
+div.class {
+	width: 590px;
+	height: 1000px;
+}
+
+/* 作品缩略图 DIV class */
+ul#production_list { list-style: none; }
+ul#production_list li { display: inline; padding: 0; }
+div.production_nail {
+	height: 400px;
+	width: 120px;
+	border: 1px solid black;
+	margin: 10px;
+	padding: 0;
+	position: relative;
+	float: left;
+}
+/*
+hr.divide_img_txt {
+	position: relative;
+	bottom: 5px;
+}
+*/
+div.nail_img { position:relative; top: 2px;}
+div.nail_txt { position:relative; bottom: 2px;}
+
+/* 艺术品 */
+div.mid_img {
+	height: 800px;
+	width: 500px;
+	border: 1px solid black;
+	margin: 10px;
+	padding: 0;
+	position: relative;
+	float: left;
+}
+
+
+/* 横向列表 */
+ul.aclinic li{
+	list-style: none;
+	display: inline;
+}
+
+/* 字体颜色 */
+
+/* 错误 警示 等类 */
+.error {
+	color: red;
+}
