@@ -24,11 +24,15 @@ $types = array(
 		);
 if( empty($_POST['type']) || !array_key_exists($_POST['type'], $types) ) {
 	$type = 'name';
-}	$type = substr(trim($_POST['type']), 0, 300);
+} else {
+	$type = substr(trim($_POST['type']), 0, 300);
+}
 
 if( empty($_POST['key']) ) {
-	$key = '';
-}	$key = substr(trim($_POST['key']), 0, 300);
+	$key = '_';
+} else {
+	$key = substr(trim($_POST['key']), 0, 300);
+}
 $key = '%'.$key;
 $key .= '%';
 
@@ -49,7 +53,7 @@ if( isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] >= 1 && $
 } else { $page = 1; }
 $start = ($page - 1)*$per_page;
 
-$sql_search_artwork = 'select * from Artworks where is_hidden = 0 and '.$types[$type].' like :key';
+$sql_search_artwork = 'select * from Artworks where is_hidden = 0 and '.$types[$type].' like :key '. 'limit '. $start. ' , '. $per_page;
 $sth_search_artwork = $dbh->prepare($sql_search_artwork);
 $sth_search_artwork->bindParam(':key', $key, PDO::PARAM_STR, 90);
 lib_pdo_if_fail( $sth_search_artwork->execute(), $sth_search_artwork, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
@@ -58,6 +62,7 @@ $artworks = $sth_search_artwork->fetchAll(PDO::FETCH_ASSOC);
 
 // 显示页面
 include($cfg_webRoot.'include/dochead.php');
+echo '<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />';
 echo '</head><body><div id="header">';
 include($cfg_webRoot.'include/header.php');
 echo '<div id="body">';
@@ -69,7 +74,7 @@ echo '<h3>搜索结果</h3><hr />';
 	echo "\t".'<ul id="production_list">'."\n";
 	if(0 == count($artworks)) { echo '<h4> 没有检索到任何结果，请更换检索词重新检索或联系管理员</h4>';  }
 	foreach($artworks as $work) {
-		echo "	\t\t<li><a href=\"artwork.php?type=work&id={$work['artwork_id']}\">
+		echo "	\t\t<li><a href=\"artwork.php?type=work&id={$work['artwork_id']}\" target=\"_blank\">
 			<div class=\"production_nail\" id=\"{$work['artwork_id']}\">
 			<img src=\"{$work['img_small']}\" title=\"{$work['artwork_name']}\" width=\"120\" />
 			<p>{$work['artwork_name']}({$work['artwork_id']} {$work['period']} {$work['author']})</p></div></a> </li>\n";
@@ -83,9 +88,9 @@ echo '<h3>搜索结果</h3><hr />';
 	echo '</ul>';
 ?>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content">
-<?php include('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi">
+<?php include('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php include('./include/footer.php'); ?>

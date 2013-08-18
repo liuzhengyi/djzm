@@ -8,6 +8,7 @@ session_start();
  */
 require('config.php');
 require($cfg_webRoot.$cfg_lib.'debug.php');
+require($cfg_webRoot.$cfg_lib.'page.php');
 if(isset($_SESSION['mname'])) { // 已登录管理员
 // 是管理员，提供管理员控制台
 	require('include/console_var.php');
@@ -23,8 +24,10 @@ switch ($type) {
 	case 'artview':
 		$type = 'artview';
 		$main_content_head = '艺术视角';
-		$sql_select_article = "	select article_id, article_name, pub_date from Articles
+		$sql_select_article = "	select article_id, article_name, sm_picture, pub_date from Articles
 					where is_hidden = FALSE AND is_artist = FALSE";
+		$sql_count_article = "select count(1) as count from Articles where is_hidden = FALSE AND
+					is_artist = FALSE";
 		break;
 	case 'article':
 		$type = 'article';
@@ -36,12 +39,35 @@ switch ($type) {
 	default:
 		$type = 'artist';
 		$main_content_head = '名家推荐';
-		$sql_select_article = "	select article_id, article_name, pub_date from Articles
+		$sql_select_article = "	select article_id, article_name, sm_picture, pub_date from Articles
 					where is_hidden = FALSE AND is_artist = TRUE";
+		$sql_count_article = "select count(1) as count from Articles where is_hidden = FALSE AND
+					is_artist = TRUE";
 		break;
 }
-// read the database
-$sth_select_article = $dbh->prepare($sql_select_article);
+// read the database for article counts used in page bar
+if('artist' == $type || 'artview' == $type) {
+	$sth_count_article = $dbh->prepare($sql_count_article);
+	lib_pdo_if_fail( $sth_count_article->execute(), $sth_count_article, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
+	$msg_count_res = $sth_count_article->fetch(PDO::FETCH_ASSOC);
+	$msg_count = $msg_count_res['count'];
+	// 分页相关参数
+	$per_page = $cfg_ms_per_page;
+	$total_page = ceil($msg_count/$per_page);
+	// 获取可能存在的通过get方式传递的页码
+	if( isset($_GET['page']) && $_GET['page'] >= 1 && $_GET['page'] <= $total_page ) {
+		$page = intval($_GET['page']);
+	} else { $page = 1; }
+	$start = ($page-1)*$per_page;
+
+	// read the database for article(s)
+	$sql_select_article .= ' limit :start, :per_page';
+	$sth_select_article = $dbh->prepare($sql_select_article);
+	$sth_select_article->bindParam(':start', $start, PDO::PARAM_INT);
+	$sth_select_article->bindParam(':per_page', $per_page, PDO::PARAM_INT);
+} else {
+	$sth_select_article = $dbh->prepare($sql_select_article);
+}
 if( 'article' == $type ) {
 	$sth_select_article->bindParam(':id', $id, PDO::PARAM_INT);
 }
@@ -54,6 +80,7 @@ if (0 == $sth_select_article->rowCount()) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -65,14 +92,28 @@ if (0 == $sth_select_article->rowCount()) {
 <?php
 if ( 'artist' == $type || 'artview' == $type ) {
 // 显示文章列表
-	echo "\t".'<ul id="article_list">'."\n";
-	foreach($articles as $article) {
-		echo "\t\t<li><a href=\"article.php?type=article&id={$article['article_id']}\">{$article['article_name']}</a> . {$article['pub_date']}</li>\n";
+	if ( !is_array($articles) ) {
+		echo '<h3>暂无数据，请等待管理员上传。</h3>';
+	} else {
+		echo "\t".'<ul id="article_list">'."\n";
+		foreach($articles as $article) {
+		//	echo "\t\t<li><a href=\"article.php?type=article&id={$article['article_id']}\">{$article['article_name']}</a> . {$article['pub_date']}</li>\n";
+	//		echo "<img src=\"{$article['sm_picture']}\" />";
+			echo "\t\t<li><a href=\"article.php?type=article&id={$article['article_id']}\">
+			<div class=\"production_nail\" >
+			<img src=\"{$article['sm_picture']}\" class=\"sm_img\" />
+			<p>{$article['article_name']} . {$article['pub_date']}</p>
+			</div></a>
+			</li>\n";
+		}
+		echo "\t</ul>\n";
+		echo "<hr class=\"clear_line\" />\n";
+		// 分页栏
+		$url = $_SERVER['SCRIPT_NAME']."?type=$type&page=";
+		echo '<ul class="aclinic">';
+		lib_dump_page_bar($url, $total_page, $page, true);
+		echo '</ul>';
 	}
-	echo "\t</ul>\n";
-	echo "<hr class=\"clear_line\" />\n";
-	// 分页栏
-	echo '<p>共xx页 当前第1页。</p> <p>转至第 <u>1</u><u>2</u> <u>x</u> <u>x</u> 页。</p>';
 } else {
 // 显示特定某篇文章 !!
 	if(empty($articles)) {
@@ -88,10 +129,13 @@ if ( 'artist' == $type || 'artview' == $type ) {
 			echo '<li><a href="action/delete_article.php?aid='.$article['article_id'].'">删除文章(谨慎操作)</a></li>';
 			echo '</ul></div>';
 		}
-		echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
-		echo '<p>';
+		if(!$article['is_artist']) {
+			echo "<p>来源：{$article['source']} | 作者：{$article['author']} | 录入时间：{$article['pub_date']}</p>";
+		}
+		echo "<img src=\"{$article['la_picture']}\" />\n";
+		echo '<p class="auto-break">';
 		$article_content_show = str_replace(" ", '&nbsp;', $article['content']);
-		$article_content_show = str_replace("\n", '<br />', $article_content_show);
+		$article_content_show = str_replace("\n", '</p></p>', $article_content_show);
 		echo $article_content_show;
 		echo '</p>';
 	}
@@ -99,9 +143,9 @@ if ( 'artist' == $type || 'artview' == $type ) {
 ?>
 
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php include('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

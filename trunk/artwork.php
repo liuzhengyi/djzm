@@ -125,6 +125,7 @@ if(0 == count($artworks)) {
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 </head>
 <body>
 <div id="header">
@@ -143,8 +144,10 @@ if ( 'sale' == $type || 'all' == $type ) {
 	foreach($artworks as $work) {
 		echo "	\t\t<li><a href=\"artwork.php?type=work&id={$work['artwork_id']}\">
 			<div class=\"production_nail\" id=\"{$work['artwork_id']}\">
-			<img src=\"{$work['img_small']}\" title=\"{$work['artwork_name']}\" width=\"120\" />
-			<p>{$work['artwork_name']}({$work['artwork_id']} {$work['period']} {$work['author']})</p></div></a> </li>\n";
+			<img src=\"{$work['img_small']}\" title=\"{$work['artwork_name']}\" class=\"sm_img\" />
+			<p>{$work['artwork_name']}({$work['artwork_id']} {$work['period']} {$work['author']})</p>
+			</div></a>
+			</li>\n";
 	}
 	echo "\t</ul>\n";
 	echo "<hr class=\"clear_line\" />\n";
@@ -158,10 +161,10 @@ if ( 'sale' == $type || 'all' == $type ) {
 	if(0 == count($artworks)) {
 		echo '<h4>对不起，您所访问的艺术品不存在。</h4>';
 	} else {
-	echo "<div class=\"big_img\" ><a href=\"{$artworks[0]['img_large']}\" target=\"_blank\"><img src=\"{$artworks[0]['img_middle']}\" width=\"500px\" /></a></div>";
+	echo "<div class=\"big_img\" ><a href=\"{$artworks[0]['img_large']}\" target=\"_blank\"><img src=\"{$artworks[0]['img_middle']}\" width=\"500\" border=\"1\" class=\"mi_img\" /></a></div>";
 	$artwork = $artworks[0];
 	echo '<table>';
-	echo "<tr><td>作品名称：</td><td>{$artwork['artwork_name']}</td></tr>";
+	echo "<tr><td class=\"item_name\">作品名称：</td><td>{$artwork['artwork_name']}</td></tr>";
 	//echo "<tr><td>作品类型：</td><td>{$artwork['artwork_type']}</td></tr>";
 	echo "<tr><td>作品类型：</td><td>{$artwork_types[$artwork['artwork_type']]}</td></tr>";
 	echo "<tr><td>作品尺寸：</td><td>{$artwork['artwork_size']}</td></tr>";
@@ -186,9 +189,9 @@ if ( 'sale' == $type || 'all' == $type ) {
 }
 ?>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content">
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi">
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>

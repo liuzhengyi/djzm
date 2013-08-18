@@ -24,18 +24,21 @@ if(empty($_GET['error'])) {
 			break;
 	}
 }
-$aid = intval($_GET['aid']);
-// get all articles
-require($cfg_dbConfFile);
-$dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);	// $dbcfg_xxx initialed in dbConf.php
-$sql_select_article = 'select * from Articles where article_id = :aid';
-$sth_select_article = $dbh->prepare($sql_select_article);
-$sth_select_article->bindParam(':aid', $aid, PDO::PARAM_INT);
-lib_pdo_if_fail( $sth_select_article->execute(), $sth_select_article, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
-$article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
+if(isset($_GET['aid'])) {
+	$aid = intval($_GET['aid']);
+	// get the article
+	require($cfg_dbConfFile);
+	$dbh = new PDO($dbcfg_dsn, $dbcfg_dbuser, $dbcfg_dbpwd);	// $dbcfg_xxx initialed in dbConf.php
+	$sql_select_article = 'select * from Articles where article_id = :aid';
+	$sth_select_article = $dbh->prepare($sql_select_article);
+	$sth_select_article->bindParam(':aid', $aid, PDO::PARAM_INT);
+	lib_pdo_if_fail( $sth_select_article->execute(), $sth_select_article, __FILE__, __LINE__, CFG_DEBUG, 'error', FALSE );
+	$article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <?php require('include/dochead.php'); ?>
+<link rel="stylesheet" href="styles/newinnerpage.css" type="text/css" />
 <body>
 <div id="header">
 <?php require('include/header.php'); ?>
@@ -54,7 +57,7 @@ $article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
 		<div id="add_article">
 		<form enctype="multipart/form-data" action="action/add_article.php<?php if(isset($aid)){echo "?aid=$aid";}?>" method="post" >
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $cfg_max_upload_file_size; ?>" />
-			<label for="input_name">文章名称<input type="text" name="article_name" id="input_name" value="<?php echo $article['article_name']; ?>" /></label><span class="input_hint">(*必填)</span><br />
+			<label for="input_name">文章名称<input type="text" name="article_name" id="input_name" value="<?php if(isset($article)) echo $article['article_name']; ?>" /></label><span class="input_hint">(*必填)</span><br />
 			<label for="input_content">内容<span class="input_hint">(*必填)</span><br /><textarea name="article_content" id="input_content" cols="40" rows="40" ><?php if(!empty($article['content'])){echo $article['content'];} ?></textarea></label></span><br />
 			<label for="input_source">来源<input type="text" name="article_source" id="input_source" value="<?php if(!empty($article['source'])) {echo $article['source'];}?>" /></label><br />
 			<label for="input_author">作者<input type="text" name="article_author" id="input_author" value="<?php if(!empty($article['author'])){echo $article['author'];} ?>" /></label><br />
@@ -71,17 +74,17 @@ $article = $sth_select_article->fetch(PDO::FETCH_ASSOC);
 			<option value="0" <?php if(!$article['is_hidden']) echo 'selected="selected"'; ?> >不隐藏</option>
 			<option value="1">隐藏</option>
 			</select><br />
-			<input type="submit" name="<?php if($aid){echo 'modify';}else {echo 'submit';}?>" value="<?php if($aid){echo '修改';} else {echo '添加';} ?>此文章" />
+			<input type="submit" name="<?php if(isset($aid)){echo 'modify';}else {echo 'submit';}?>" value="<?php if(isset($aid)){echo '修改';} else {echo '添加';} ?>此文章" />
 		</form>
 			<?php if (isset($aid)) {
-				echo '<input type="submit" name="cancel" value="放弃修改" />';	
+				echo '<a href="article.php"><input type="submit" name="cancel" value="放弃修改" /></a>';
 			} ?>
 		</div><!-- end of DIV add_article -->
 		<hr class="clear_line"/>
 	</div> <!-- end of DIV main_content -->
-	<div id="sub_main_content" >
-<?php require('./include/sub_main_content.php'); ?>
-	</div> <!-- end of DIV sub_main_content -->
+	<div id="navi" >
+<?php require('./include/navi.php'); ?>
+	</div> <!-- end of DIV navi -->
 </div> <!-- end of DIV body -->
 <div id="footer">
 <?php require('./include/footer.php'); ?>
