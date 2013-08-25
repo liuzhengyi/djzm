@@ -23,10 +23,10 @@
 */
 /*
 //	meicheng上的配置
-	$dbcfg_dbhost = '114.80.208.9';
-	$dbcfg_dbname = 'sq_imageink';
-	$dbcfg_dbuser = 'sq_imageink';
-	$dbcfg_dbpwd = 'PTJ518528';
+	$dbcfg_dbhost = 'localhost';
+	$dbcfg_dbname = 'zjt';
+	$dbcfg_dbuser = 'zjt_user';
+	$dbcfg_dbpwd = '526555424926a3f97beda95d45c63f89';
 */
 //	gipsa.name上的配置
 	$dbcfg_dbhost = 'localhost';
