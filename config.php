@@ -29,13 +29,15 @@ $cfg_webRoot = "/var/www/djzm/";
 $cfg_siteRoot = "http://r52/djzm/";
 */
 
-/*
 // 在美橙上的配置
-*/
+$cfg_webRoot = "/var/www/djzm/";
+$cfg_siteRoot = "http://www.imageink.cn/";
 
+/*
 // 在gipsa.name上的配置
 $cfg_webRoot = "/var/www/djzm/";
 $cfg_siteRoot = "http://djzm.gipsa.name/";
+*/
 
 /*
 // 在ucart服务器上的配置

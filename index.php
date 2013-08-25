@@ -14,8 +14,9 @@ if(isset($_SESSION['mname'])) { // 已登录管理员
 
 <?php require('include/dochead.php'); ?>
 <link rel="stylesheet" href="styles/newmain.css" type="text/css" />
+<!--
 <script src="scripts/slide_show.js" type="text/javascript" ></script>
-<link rel="stylesheet" href="styles/slide_show.css" type="text/css" />
+<link rel="stylesheet" href="styles/slide_show.css" type="text/css" /> -->
 <link rel="stylesheet" href="styles/index.css" type="text/css" />
 <!--
 <style>
@@ -31,14 +32,20 @@ img#indeximg {
 <div id="body" >
 <!--	<img id="indeximg" src="../pic/new/mainback.png" usemap="#indexmap" style="z-index:-1; position:absolute;" /> -->
 <!--	<img id="indeximg" src="../pic/new/index_with_menus.png" /> -->
-	<img id="indeximg" src="./pic/new/index_final.png" align="middle" usemap="#indexmap" />
-	<map name="indexmap" id="indexmap" >
-	<area shape="rect" coords="950,624,1020,647" href="article.php?type=artview" alt="艺术视角" />
-	<area shape="rect" coords="850,624,920,647" href="article.php?type=artist" alt="名家推荐" />
-	<area shape="rect" coords="730,624,820,647" href="artwork.php?type=sale" alt="艺术品交流" />
-	<area shape="rect" coords="630,624,705,647" href="artwork.php?type=all" alt="精品典藏" />
-	<area shape="rect" coords="530,624,605,647" href="about.php" alt="关于我们" />
-	<area shape="rect" coords="465,624,500,647" href="index.php" alt="首页" />
+<!--	<img id="indeximg" src="./pic/new/index_final.png" align="middle" usemap="#indexlinks" /> -->
+	<img id="indeximg" src="./pic/new/index_high_links.png" align="middle" usemap="#indexlinks" />
+	<!--
+	<img id="indeximg" src="./pic/index_bg.png" align="middle" />
+	<img id="indexlinksimg" src="./pic/index_links.png" align="middle" usemap="#indexlinks" />
+	-->
+	<map name="indexlinks" id="indexlinks" >
+	<area shape="rect" coords="340,570,380,590" href="index.php" target="_blank" alt="首页" title="首页" />
+	<area shape="rect" coords="404,570,484,590" href="about.php" target="_blank" alt="关于我们" title="关于我们" />
+	<area shape="rect" coords="502,570,582,590" href="artwork.php?type=all" target="_blank" alt="精品典藏" title="精品典藏" />
+	<area shape="rect" coords="602,570,702,590" href="artwork.php?type=sale" target="_blank" alt="艺术品交流" title="艺术品交流" />
+	<area shape="rect" coords="720,570,802,590" href="article.php?type=artist" target="_blank" alt="名家推荐" title="名家推荐" />
+	<area shape="rect" coords="822,570,900,590" href="article.php?type=artview" target="_blank" alt="艺术视角" title="艺术视角" />
+	<area shape="rect" coords="930,570,1010,590" href="message.php?type=artview#add_message" target="_blank" alt="在线留言" title=在线留言" />
 	</map>
 </div> <!-- end of DIV body -->
 
