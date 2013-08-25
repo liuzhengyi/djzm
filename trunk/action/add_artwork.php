@@ -55,7 +55,7 @@ if(empty($image['tmp_name']) || empty($name)
 	// 移动文件失败，可能是客户端在进行攻击		// 判断错误原因 !!
 	//	var_dump( $_FILES['artwork_image']['error']);
 	//	exit();
-		header("Location:../add_artwork.php?error=handleerror");	// 处理上传文件失败
+		header("Location:../control_artwork.php?error=handleerror");	// 处理上传文件失败
 		exit();
 	}
 	// 移动文件成功
