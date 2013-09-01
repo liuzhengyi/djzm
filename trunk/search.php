@@ -20,7 +20,13 @@ $types = array(
 		'author'=>'author',
 		'period'=>'period',
 		'name'=>'artwork_name',
-		'type'=>'artwork_type'
+		'type'=>'artwork_type',
+		);
+$view_types = array(
+		'name'=>'作品名称',
+		'author'=>'作者姓名',
+		'type'=>'作品类型',
+		'period'=>'作品时期',
 		);
 if( empty($_POST['type']) || !array_key_exists($_POST['type'], $types) ) {
 	$type = 'name';
@@ -33,8 +39,7 @@ if( empty($_POST['key']) ) {
 } else {
 	$key = substr(trim($_POST['key']), 0, 300);
 }
-$key = '%'.$key;
-$key .= '%';
+$key = '%'. $key. '%';
 
 // 数据验证完毕，开始检索数据库
 require($cfg_dbConfFile);
@@ -69,7 +74,23 @@ echo '<div id="body">';
 echo '<div id="main_content" class="content_block">';
 echo '<h4 id="main_content_head"></h4>';
 
-echo '<h3>搜索结果</h3><hr />';
+echo '<h3>站内搜索</h3><hr />';
+	// 显示搜索框
+?>
+		<form action="#" method="POST">
+			类型：
+			<select>
+				<?php
+				foreach ( $view_types as $name => $value ) {
+					echo '<option name="'. $name. '">'. $value. '</option>';
+				}
+				?>
+			</select>
+			关键词：
+			<input type="text" name="key" value="<?php echo (empty($_POST['key'])) ? '': $_POST['key'];?>" />
+			<input type="submit" name="submit" value="搜索" />
+		</form>
+<?php
 	// 显示艺术品
 	echo "\t".'<ul id="production_list">'."\n";
 	if(0 == count($artworks)) { echo '<h4> 没有检索到任何结果，请更换检索词重新检索或联系管理员</h4>';  }
