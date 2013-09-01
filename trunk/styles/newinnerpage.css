@@ -4,6 +4,16 @@ div#navi a:visited {text-decoration:none; color:black;}
 div#navi a:hover {text-decoration:underline; color:black;}
 div#navi a:active {text-decoration:underline; color:black;}
 
+div#search_site a{
+	position: absolute;
+	top: 120px;
+	right: 37px;
+	color: #aaa;
+	text-decoration: none;
+	font-size: 1.3em;
+
+}
+
 body {
 	width: 1092px;
 	margin-left: auto;

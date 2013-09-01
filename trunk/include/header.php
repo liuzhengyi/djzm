@@ -1,5 +1,6 @@
 	<div id="header_logo">
 	<img src="./pic/new/inner_back_new.1092.top.png" />
+	<div id="search_site"><a href="/search.php">站内搜索</a></div>
 	</div>
 	<!-- end of DIV header_logo -->
 	<!--
